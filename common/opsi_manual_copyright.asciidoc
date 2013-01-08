@@ -1,0 +1,67 @@
+////
+; Copyright (c) uib gmbh (www.uib.de)
+; Questa documentazione appartiene a uib
+; ed è pubblicata sotto licenza creative commons by-sa tedesca
+; vedi:
+; http://creativecommons.org/licenses/by-sa/3.0/de/
+; http://creativecommons.org/licenses/by-sa/3.0/de/legalcode
+; in inglese:
+; http://creativecommons.org/licenses/by-sa/3.0/
+; http://creativecommons.org/licenses/by-sa/3.0/legalcode
+; 
+; credits: http://www.opsi.org/credits/
+////
+
+:Author:    OpenSides sprl
+:Email:     opsi@opensides.be
+:Date:      08.01.2013
+:Revision:  4.0.2
+:toclevels: 6
+
+include::../common/opsi_terms.asciidoc[]
+
+
+[[opsi-manual-copyright]]
+== Copyright
+
+Il Copyright di questo manuale è di proprietà di uib gmbh con sede in Mainz, Germania.
+
+Il Copyright della traduzione italiana è di proprietà di OpenSides sprl con sede a Brussels, Belgio.
+
+Questo manuale è pubblicato sotto licenza creative commons +
+'Attribution - ShareAlike' (by-sa). 
+
+image::../images/cc-by-sa.png["CC by sa",width=100]
+
+Trovate la descrizione tedesca qui: +
+http://creativecommons.org/licenses/by-sa/3.0/de/
+
+Trovate la licenza giuridicamente vincolante tedesca qui: +
+http://creativecommons.org/licenses/by-sa/3.0/de/legalcode
+
+Trovate la descrizione inglese qui: +
+http://creativecommons.org/licenses/by-sa/3.0/
+
+Trovate la licenza giuridicamente vincolante inglese qui: +
+http://creativecommons.org/licenses/by-sa/3.0/legalcode
+
+Trovate la descrizione italiana qui: +
+http://creativecommons.org/licenses/by-sa/3.0/deed.it
+
+Trovate la licenza giuridicamente vincolante italiana qui: +
+http://creativecommons.org/licenses/by-sa/3.0/it/legalcode
+
+La maggior parte del software di OPSI è open source. +
+Le parti di OPSI che non sono ancora open source sono in fase di sviluppo co-finanziate.  Puoi avere informazioni su questi componenti qui: +
+http://uib.de/it/opsi_cofunding/index.html
+
+Tutto il codice open source è pubblicato sotto licenza GPLv3:
+
+image::../images/gplv3-127x51.png["",width=100]
+
+La licenza GPLv3 giuridicamente vincolante può essere trovato qui:
+http://www.gnu.org/licenses/gpl.html
+
+Il nome 'opsi' è un marchio registrato di uib gmbh.
+
+Il logo di opsi è di proprietà di uib gmbh, e può essere usato solo con il consenso esplicito di uib.
