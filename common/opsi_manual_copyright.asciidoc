@@ -8,7 +8,10 @@
 ; in inglese:
 ; http://creativecommons.org/licenses/by-sa/3.0/
 ; http://creativecommons.org/licenses/by-sa/3.0/legalcode
-; 
+; in italiano:
+; http://creativecommons.org/licenses/by-sa/3.0/it/deed.it
+; http://creativecommons.org/licenses/by-sa/3.0/it/legalcode
+;
 ; credits: http://www.opsi.org/credits/
 ////
 
@@ -53,7 +56,7 @@ http://creativecommons.org/licenses/by-sa/3.0/it/legalcode
 
 La maggior parte del software di OPSI è open source. +
 Le parti di OPSI che non sono ancora open source sono in fase di sviluppo co-finanziate.  Puoi avere informazioni su questi componenti qui: +
-http://uib.de/it/opsi_cofunding/index.html
+http://www.opsi.org/it/moduli-in-cofinanziamento
 
 Tutto il codice open source è pubblicato sotto licenza GPLv3:
 
