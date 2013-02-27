@@ -8,17 +8,14 @@
 ; in inglese:
 ; http://creativecommons.org/licenses/by-sa/3.0/
 ; http://creativecommons.org/licenses/by-sa/3.0/legalcode
-; in italiano:
-; http://creativecommons.org/licenses/by-sa/3.0/it/deed.it
-; http://creativecommons.org/licenses/by-sa/3.0/it/legalcode
 ;
 ; credits: http://www.opsi.org/credits/
 ////
 
 :Author:    OpenSides sprl
 :Email:     opsi@opensides.be
-:Date:      08.01.2013
-:Revision:  4.0.2
+:Date:      22.02.2013
+:Revision:  4.0.3
 :toclevels: 6
 
 include::../common/opsi_terms.asciidoc[]
@@ -36,11 +33,11 @@ Questo manuale è pubblicato sotto licenza creative commons +
 
 image::../images/cc-by-sa.png["CC by sa",width=100]
 
-Trovate la descrizione tedesca qui: +
-http://creativecommons.org/licenses/by-sa/3.0/de/
+Trovate la descrizione italiana qui: +
+http://creativecommons.org/licenses/by-sa/3.0/deed.it
 
-Trovate la licenza giuridicamente vincolante tedesca qui: +
-http://creativecommons.org/licenses/by-sa/3.0/de/legalcode
+Trovate la licenza giuridicamente vincolante italiana qui: +
+http://creativecommons.org/licenses/by-sa/3.0/it/legalcode
 
 Trovate la descrizione inglese qui: +
 http://creativecommons.org/licenses/by-sa/3.0/
@@ -48,23 +45,28 @@ http://creativecommons.org/licenses/by-sa/3.0/
 Trovate la licenza giuridicamente vincolante inglese qui: +
 http://creativecommons.org/licenses/by-sa/3.0/legalcode
 
-Trovate la descrizione italiana qui: +
-http://creativecommons.org/licenses/by-sa/3.0/deed.it
-
-Trovate la licenza giuridicamente vincolante italiana qui: +
-http://creativecommons.org/licenses/by-sa/3.0/it/legalcode
 
 La maggior parte del software di OPSI è open source. +
-Le parti di OPSI che non sono ancora open source sono in fase di sviluppo co-finanziate.  Puoi avere informazioni su questi componenti qui: +
+Le parti di OPSI che non sono ancora open source sono in fase di sviluppo co-finanziate.  Puoi avere più informazioni su questi componenti qui: +
 http://www.opsi.org/it/moduli-in-cofinanziamento
 
-Tutto il codice open source è pubblicato sotto licenza GPLv3:
+Tutto il codice open source è pubblicato sotto licenza GPLv3 e sarà rilasciato in licenza AGPLv3 a partire dalla versione 4.0.3 di opsi:
 
 image::../images/gplv3-127x51.png["",width=100]
 
-La licenza GPLv3 giuridicamente vincolante può essere trovato qui:
+La licenza GPLv3 giuridicamente vincolante può essere trovata qui:
 http://www.gnu.org/licenses/gpl.html
 
-Il nome 'opsi' è un marchio registrato di uib gmbh.
+image::../images/agplv3-127x53.png["agplv3",width=100]
 
-Il logo di opsi è di proprietà di uib gmbh, e può essere usato solo con il consenso esplicito di uib.
+La licenza AGPLv3 giuridicamente vincolante può essere trovata qui:
+http://www.gnu.org/licenses/agpl-3.0-standalone.html
+
+Informazioni supplementari per la licenza AGPL:
+http://www.gnu.org/licenses/agpl-3.0.en.html
+
+Per le licenze d'uso di opsi in un contesto di software proprietario, contattate uib gmbh.
+
+I nomi 'opsi', 'opsi.org', 'open pc server integration' e il logo di opsi sono dei marchi registrati di uib gmbh.
+
+
