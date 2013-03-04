@@ -15,8 +15,8 @@
 
 :Author:    OpenSides sprl
 :Email:     opsi@opensides.be
-:Date:      08.01.2013
-:Revision:  4.0.2
+:Date:      27.02.2013
+:Revision:  4.0.3
 :doctype:		book
 
 // Include common opsi terms
@@ -231,7 +231,7 @@ Possono essere modificati per un uso successivo.
 
 Dopo il riavvio, connettetevi come 'root' con la vostra password per root.
 
-The graphical user interface of the {opsi-server} should already be started (implemented as a sustainable window manager). A „Firefox“ browser window might appear at startup, and display further instructions and information.  This information can serve as a reference to the getting started document (the document you are currently reading).
+L'interfaccia grafica del {opsi-server} should already be started (implemented as a sustainable window manager). A „Firefox“ browser window might appear at startup, and display further instructions and information.  This information can serve as a reference to the getting started document (the document you are currently reading).
 
 Se ricevete un messaggio che indica una mancata connessione di rete, provate a riavviare il server, potrebbe risolvere il problema.
 
@@ -242,111 +242,111 @@ Se la configurazione della rete è corretta, sarete in grado di procedere ad un 
 
 * usate 'ssh' dalla linea di comando per avere accesso al server ('ssh' è sempre installato in un sistema linux, per Windows usate putty: http://www.chiark.greenend.org.uk/~sgtatham/putty/) +
 
-Usatee 'root' come nome utente, e autenticatevi con la password di root.
+Usate 'root' come nome utente, e autenticatevi con la password di root.
 
 [[opsi-getting-started-installation-base-vm-term]]
 ===== Finestra del terminale
 
-In the following sections, some commands have to be entered into a command line interface. It may be the easiest way to work through these instructions.
+Nelle sezioni seguenti, alcuni comandi dovranno essere inseriti a partire da un'interfaccia in linea di comando. Puùo essere il miglior modo per lavorare con le istruzioni di questo manuale.
 
-The commands are input into a window called a “terminal window“. Here are examples that explain how to access a terminal window:
+I comandi sono inseriti a partire da una “finestra terminale“. Di seguito degli esempi che spiegano come avere accesso a una finestra di terminale:
 
-* Remote access per ssh on the '{opsi-server}' (see Section 3.1.1.4 of the last chapter)
+* Accesso remoto via ssh sul '{opsi-server}' (vedi Sezione 3.1.1.4 dell'ultimo capitolo)
 
-* Open a terminal window in the {opsi-server} graphical interface with a click on the terminal icon in the icon bar.
+* Aprire una finestra di terminale nell'interfaccia grafica del {opsi-server} cliccando sull'icona del terminale nella barra delle icone.
 
-* Open a terminal window in the {opsi-server} graphical interface with a right mouse click inside the interface, and choose  “Terminal“. +
-Note: the graphical interface has many working applications that are reachable using the variety of buttons in the upper-left-hand corner of the display.
+* Aprire una finestra di terminale nell'interfaccia grafica del {opsi-server} con un click destro del mouse, e scegliendo  “Terminale“. +
+NOTE: l'interfaccia grafica ha molte applicazioni che sono accessibili usando una varietà di bottoni nell'angolo di sinistra in alto dello schermo.
 
-We recommend cutting and pasting commands from this handbook directly into the {opsi-server} terminal window (most applications support cut and paste).
+Raccomandiamo di eseguire dei facili copia/incolla a partire dal questo manuale verso la finestra del terminale sul {opsi-server} (molte applicazioni accettano il copia/incolla).
 
-Example snippets from configuration files are formatted like this:
+Gli esempi estratti dai files di configurazione sono formattati come di seguito:
 [source,configfile]
 ----
 depoturl = smb://smbhost/sharename/path
 ----
 
-Example snippets for commands that you have to execute are formatted like this:
+Gli esempi per i comandi che dovrete eseguire sono formattati come di seguito:
 [source,prompt]
 ----
 cd /tmp
 ls -l
 ----
 
-Angle brackets '< >' mark abstract names. When entering commands, please replace the '<abstract name>' with a real name. +
-For example: The file share, where opsi places the software packets, may abstractly be noted as '<opsi-depot-share>'. If the real file share is `/opt/pcbin/install`, then you have to replace the abstract name by this exact string. The location of the packet '<opsi-depot-share>/ooffice' becomes `/opt/pcbin/install/ooffice`. .
+I simboli '< >' identificano dei nomi astratti. Quando eseguirete dei comandi, rimpiazzate i '<nomi astratti>' con dei nomi reali. +
+Ad esempio: Lo spazio condiviso, dove opsi piazza i suoi pacchetti software, potrebbe essere definito in maniera astratta come '<deposito-condiviso-opsi>'. Se lo spazio condiviso reale è `/opt/pcbin/install`, allora dovrete rimpiazzare il nome astratto con questa stringa esatta. L'ubicazione del pacchetto '<deposito-condiviso-opsi/ooffice' diventerà `/opt/pcbin/install/ooffice`. .
 
 [[opsi-getting-started-installation-base-vm-network]]
-===== Check the Network Connection
+===== Verificate la connessione di rete
 
-If the network configuration is correct, and the computer is connected to the internet, then you can access any internet address using the browser in the start window.
+Se la configurazione di rete è corretta, e il computer è connesso ad internet, potrete navigare verso ogni indirizzo internet usando il browser della finestra d'avvio.
 
-If the internet connection is not working, then you have to open a terminal window (maybe remote access isn't possible, except using the server terminal window) and then perform the necessary network connection checks and fixes. 
+Se la connessione internet non è funzionante, allora dovrete aprire una finestra di terminale (probabilmente l'accesso remoto non sarà possibile, eccetto usando la finestra di terminale stessa del server) ed effettuare le necessarie verifiche e correzioni della configurazione di rete. 
 
-You can re-enter the network configuration by entering this command in the terminal window:
+Potrete riconfigurare la connessione di rete del server eseguendo questo comando nella finestra di terminale:
 [source,prompt]
 ----
 1stboot.py
 ----
 
-A reboot is forced with the command:
+Per forzare il riavvio del server eseguite il comando seguente:
 [source,prompt]
 ----
 reboot
 ----
 
-If the network connection works, then you can install opsi packages or update them, and configure the environment for the first installation test. If you want to use the VMware machine (and not install the {opsi-server} directly to your host system), then skip to <<opsi-getting-started-installation-config>>.
+Se la connessione di rete è funzionante, potrete installare o aggiornare i pacchetti software di opsi, e configurare il necessario per il primo test d'installazione. Se vorrete usare la macchina virtuale VMware (invece di installare direttamente il {opsi-server} nel vostro host), allora passate a <<opsi-getting-started-installation-config>>.
 
 [[opsi-getting-started-installation-base-deb]]
-==== Installation of a Debian / Ubuntu System
+==== Installazione di un sistema Debian / Ubuntu
 
-Opsi 4.0 is designed and tested for:
+Opsi 4.0 è progettato e testato per:
 
 * Debian : Lenny, Squeeze
 
 * Ubuntu: Lucid, Maverick, Natty, Oneiric, Precise
 
-* The support for Debian Lenny and Ubuntu Maverick is deprecated.
+* Il supporto di Debian Lenny e Ubuntu Maverick è obsoleto.
 
-Please read the chapter <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (if you haven't done so yet).
+Leggete il capitolo <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (se non lo avete ancora fatto).
 
-In this chapter, we assume you are familiar with the debian-package system (you will find information about the debian-package in the appropriate books, in the manual pages, or under http://www.debian.org/doc/).
+In questo capitolo, noi supponiamo che voi conosciate il sistema di pacchetti debian (troverete informazioni sul soggetto su apprpriti libri, sulle pagine di manuale debian/ubuntu, oppure all'indirizzo http://www.debian.org/doc/).
 
-Please note that an {opsi-server} needs storage in `/opt/pcbin` and `/var/lib/opsi`. In both directories, a minimum of 8 GB of free space is recommended.
+Notate che un {opsi-server} ha bisogno di spazio in `/opt/pcbin` e `/var/lib/opsi`. In entrambe le directories, vi raccomandiamo un minimo di 8 GB di spazio libero.
 
-We recommend the following installations:
+Raccomandiamo l'installazione dei seguenti software:
 
 [source,prompt]
 ----
 aptitude install wget lsof host python-mechanize p7zip-full cabextract openbsd-inetd
 ----
 
-opsi needs samba, which can be installed as:
+opsi ha bisogno di samba, che puó essere installato con:
 
 [source,prompt]
 ----
 aptitude install samba samba-common smbclient smbfs samba-doc
 ----
 
-If you plan to use MySQL as a backend (i.e. for Inventory and license management), then you should install a mysql-server:
+Se desiderate usare MySQL come backend (ad esempio per l'inventario, la gestione delle licenze o avete più di 500 computer da amministrare), allora dovrete installare mysql-server:
 [source,prompt]
 ----
 aptitude install mysql-server
 ----
 
-Check the {opsi-server} entry in `/etc/hosts`, or the output of
+Verificate sul {opsi-server} il contenuto di `/etc/hosts`, o l'output del comando:
 [source,prompt]
 ----
 getent hosts $(hostname -f)
 ----
 
-The result should look like the following example: +
+Il risultato dovrebbe assomigliare all'esempio seguente: +
 '192.168.1.1 server.domain.tld server' +
-The result has the scheme: +
-'<IP-Number> <full qualified hostname> <hostname>' +
-If the result looks different than the above example (contains eg. '127.0.0.1' or 'localhost'), or the full qualified hostname does not contain one or more dots, then you must correct your name resolution (DNS or `/etc/hosts` file). 
+Il risultato ha lo schema: +
+'<Indirizzo-IP> <nome-host-pienamente-qualificato> <nome-host>' +
+Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' o 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
-To start with the installation of opsi, add the following line in the file '/etc/apt/sources.list', depending on your operating system:
+Per cominciare l'installazione di opsi, aggiungete le seguenti linee al file '/etc/apt/sources.list', in base al vostro sistema operativo:
 
 Ubuntu Lucid:
 [source,configfile]
@@ -389,7 +389,7 @@ Debian Squeeze:
 deb http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/Debian_6.0 ./
 ----
 
-Now execute this command in order to import the signature key of the repository:
+Adesso eseguite questo comando per poter importare la firma digitale del repository:
 
 Ubuntu Lucid:
 
@@ -439,17 +439,17 @@ Debian Squeeze:
 wget -O - http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/Debian_6.0/Release.key | apt-key add -
 ----
 
-All: +
-Check for key import success:
+Tutti: +
+Verifica della riuscita dell'importazione:
 [source,prompt]
 ----
 apt-key list
 ----
-should contain the output: +
+dovrà risultare l' output: +
 `pub   1024D/4DC87421 2010-07-23 [verfällt: 2012-09-30] +
 uid    home:uibmz OBS Project <home:uibmz@build.opensuse.org>`
 
-Execute the following commands in order to install opsi at your server:
+Eseguite i seguenti comandi per installare opsi sul vostro server:
 
 [source,prompt]
 ----
@@ -462,20 +462,20 @@ aptitude install opsi-depotserver
 aptitude install opsi-configed
 ----
 
-During the tftpd-installation, you may be asked for the tftp directory. Answer with `/tftpboot`. Answer the question after the multicast support question with a 'no'.
+Durante l'installazione di tftpd, vi sarà richiesta la directory per tftp. Rispondete con `/tftpboot`. Alla domanda sul supporto multicast rispondete 'no'.
 
-During the installation of the opsiconfd, you will be asked for information about a SSL certificate preparation.
+Durante l'installazione di opsiconfd, vi saranno richieste informazioni per poter generare il certificato SSL.
 
-During the {opsi-server} installation, you have to allow the patching of the files `dhcpd.conf` and `smb.conf`. Answer the question with 'yes'. Also, you will be asked for a password for the user 'pcpatch'. Set a new password, and please remember this password when continuing with the following sections.
+Durante l'installazione del {opsi-server}, dovrete autorizzare il patching dei files `dhcpd.conf` and `smb.conf`. Rispondete 'yes' alle domande. Vi sarà anche richiesta la password dell'utente 'pcpatch'. Impostate una nuova password, e ricordate questa password nel prosieguo delle seguenti sezioni del manuale.
 
-During the {opsi-server} installation, please ignore any warnings about a missing `/etc/opsi/modules` file.
+Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-If you would like to run the opsi management interface '{opsi-configed}' directly on the server, then you need to install the Java Runtime Environment from Sun/Oracle. In order to install these packages, enter these commands:
+Se volete eseguire l'interfaccia di gestione '{opsi-configed}' direttamente sul server, dovrete installare Java Runtime Environment di Sun/Oracle. Per installare questi pacchetti, eseguite questi comandi:
 
 .Debian:
-In the file `/etc/apt/sources.list`, add the branches +non-free+ and +contrib+ to your repositories.
+Nel file `/etc/apt/sources.list`, aggiungete i rami +non-free+ e +contrib+ ai vostri repositories.
 
-The result may look like this:
+Il risultato dovra somigliare a:
 [source,configfile]
 ----
 deb http://ftp.de.debian.org/debian/ lenny main non-free contrib
@@ -484,9 +484,9 @@ deb-src http://ftp.de.debian.org/debian/ lenny main non-free contrib
 deb http://security.debian.org/ lenny/updates main non-free contrib
 deb-src http://security.debian.org/ lenny/updates main non-free contrib
 ----
-NOTE: If you are running 'squeeze', then the repositories have to be 'squeeze' instead of 'lenny'.
+NOTE: Su 'squeeze', i repositories dovranno essere 'squeeze' al posto di 'lenny'.
 
-To install the Java JRE execute:
+Per installare Java JRE eseguite:
 [source,prompt]
 ----
 aptitude update
@@ -494,10 +494,10 @@ aptitude install sun-java6-jre sun-java6-plugin
 ----
 
 .Ubuntu:
-Since Ubuntu has removed the Sun/Oracle JRE from its repositories, we recommend using OpenJDK. This will work fine if you start the opsi-configed as an application or via webstart. Running the opsi-configed inside the browser as an applet may lead to problems with version 6 of OpenJDK.
+Da quando Ubuntu ha tolto Sun/Oracle JRE dai suoi repositories, raccomandiamo l'uso di OpenJDK. Funzionerà bene se eseguirete opsi-configed come applicazione esterna o pagina web nel browser. Lesecuzione di opsi-configed nel browser come applet puó dare problemi con la versione 6 di OpenJDK.
 
 .Ubuntu Lucid, Maverick, Natty: 
-To install the Java JRE execute:
+Per installare Java JRE eseguite:
 [source,prompt]
 ----
 aptitude update
@@ -505,93 +505,93 @@ aptitude install openjdk-6-jre icedtea-plugin
 ----
 
 .Ubuntu Oneric, Precise: 
-Since Oneric, we recommend using version 7 of the OpenJDK.
-To install version 7 of the Java JRE execute:
+A partire da Oneric, raccomandiamo l'uso della versione 7 di OpenJDK.
+Per installare la versione 7 di Java JRE eseguite:
 [source,prompt]
 ----
 aptitude update
 aptitude install openjdk-7-jre icedtea-plugin
 ----
 
-Assuming all of the above steps completed successfully, we can assume that the network is properly configured. Next continue on with <<opsi-getting-started-installation-config-backend>>
+Supponendo che tutti i precedenti passi siano stati eseguiti con successo, supponiamo anche che la configurazione di rete sia corretta. Potete dunque continuare da <<opsi-getting-started-installation-config-backend>>
 
 [[opsi-getting-started-installation-base-ucs]]
-==== Installation on a Univention Corporate Server (UCS)
+==== Installazione su un server Univention Corporate (UCS)
 
-Please read <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (if you haven't done so yet).
+Leggete <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (se non lo avete già fatto).
 
-opsi 4.0 is tested and released for UCS 2.4, 3.0 and 3.1
+opsi 4.0 è testato e rilasciato per UCS 2.4, 3.0 e 3.1
 
-It is possible to install opsi4ucs on a UCS Master, Backup, or Slave. +
-Installation on Memberservers is not supported. 
+É possibile installare opsi4ucs su UCS Master, Backup, oppure Slave. +
+L'installazione su Memberservers non è supportata. 
 
-The package opsi4ucs-ldap-schema has to be installed on a UCS Master.
+Il pacchetto opsi4ucs-ldap-schema dovrà essere installato su l'UCS Master.
 
-The following documentation assumes that opsi is to be installed on an UCS Master.
+La seguente documentazione presuppone che opsi sarà installato su UCS Master.
 
-Necessary preparations:
+Condizioni necessarie:
 
-* The command
+* Il comando
 +
 [source,prompt]
 ----
 hostname -f
 ----
 +
-must return a fully qualified domain name containing two dots, e.g. 'opsidemo.domain.local'
+dovrà dare come risultato il nome pienamente qualificato contenente due punti, ad esempio 'opsidemo.dominio.locale'
 
-* Check the {opsi-server} entry in `/etc/hosts` or the output of
+* Verificate il contenuto sul {opsi-server} di `/etc/hosts` oppure il risultato di
 +
 [source,prompt]
 ----
 getent hosts $(hostname -f)
 ----
 +
-The result should look like the following example: +
+Il risultato dovrebbe assomigliare all'esempio seguente: +
 '192.168.1.1 server.domain.tld server' +
-The result has the scheme: +
-'<IP-Number> <full qualified hostname> <hostname>' +
-If the result looks different than the example above (contains eg. '127.0.0.1' or 'localhost'), or the full qualified hostname does not contain one or more dots, then you must correct your name resolution (DNS or `/etc/hosts` file). 
+Il risultato ha lo schema: +
+'<indirizzo-IP> <nome-host-pienamente-qualificato> <nome-host>' +
+Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' o 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
-* Samba must be configured
+* Samba dovrà essere configurato
 
-* mysql-server must be installed
+* mysql-server dovrà essere installato
 
-* If the machine should also act as DHCP-server, then the daemon dhcpd has to be configured and should be up and running
+* Se il server dovrà fungere anche da server DHCP, allora il demone dhcpd dovrà essere configurato ed operazionale
 
 [[opsi-getting-started-installation-base-ucs-2]]
-===== Installation on a UCS 2 System
+===== Installazione su un sistema UCS 2
 
-The installation of opsi with the default Univention backend is possible on the Rolling Master, Backup, and Slave.
-It is not possible on the Memberserver.  When the opsi-config server should add another opsi-depotserver (in serveral places),
-then the opsi-config server must be installed on a UCS-Master or -Backup.
+L'installazione di opsi con il backend di default di Univention è possibile sia su un Master, che su un Backup, che su uno Slave.
+Non è invece possibile su un Memberserver.  Quando il server di configurazione (opsi-confi) dovrà aggiungere un altro server di deposito (opsi-depotserver) (in differenti locazioni),
+allora il server opsi-config dovrà essere installato su un UCS-Master oppure su un UCS-Backup.
 
-The packet opsi4ucs-ldap-schema must be imported to the Master system.
+Il pacchetto opsi4ucs-ldap-schema dovrà essere importato sul Master.
 
-The following documentation is used for an installation on a Master system.
+La documentazione seguente è usata per un'installazione su un Master.
 
-Use the following command to activate the UCS repositories on your target server:
+Usate i seguenti comandi per attivare i repositories UCS sul vostro server:
 [source,prompt]
 ----
 ucr set repository/online/component/backports4opsi=yes repository/online/component/backports4opsi/server=apt.univention.de repository/online/component/backports4opsi/parts=unmaintained
 ----
-You don't need to run this command on the Master if you only want to install the opsi schema there.  
-If you would like to install opsi on a Slave or on a Backup-Server, then the above commands are important for the Server.
-(It is not imporant to enter the commands on the Server if you only want to import the opsi4ucs-ldap-schema.)
+Non necessitate l'esecuzione di questi comandi sul Master nel caso in cui desideriate solo installare lo schema opsi sul server stesso.  
+Se volete installare opsi su uno Slave o su un Backup, allora i seguenti comandi saranno necessari.
+(Non necessitate l'esecuzione di questi comandi sul Server nel caso in cui desideriate solo importare lo schema opsi4ucs-ldap-schema.)
 
-Append the opsi repository to your `/etc/apt/sources.list` with:
+Aggiungete il repository opsi nel vostro `/etc/apt/sources.list` con:
 [source,prompt]
 ----
 echo "deb http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/ucs2.4 ./" >> /etc/apt/sources.list
 ----
 
-Now import the opsi repository signature keys to your system:
+Adesso importate la firma digitale del repository opsi nel vostro sistema:
 
 [source,prompt]
 ----
 wget -O - http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/ucs2.4/Release.key | apt-key add -
 ----
-To install opsi on a UCS Master, run the following commands:
+Per installare opsi su un UCS Master, eseguite i seguenti comandi:
 
 [source,prompt]
 ----
@@ -601,11 +601,11 @@ dpkg -i /tmp/opsi4ucs-ldap-schema_4.0.2.2-1_all.deb
 univention-install opsi4ucs
 ----
 
-During the {opsi-server} installation, please ignore any warnings about a missing `/etc/opsi/modules` file.
+Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-To install opsi on a UCS Backup or Slave, run the following commands:
+Per installare opsi su un UCS Backup o Slave, eseguite i seguenti comandi:
 
-At the Master run the following commands:
+Prima di tutto sul Master eseguite i seguenti comandi:
 [source,prompt]
 ----
 cd /tmp
@@ -613,26 +613,26 @@ wget http://download.uib.de/opsi4.0/archiv/opsi4ucs-ldap-schema_4.0.2.2-1_all.de
 dpkg -i /tmp/opsi4ucs-ldap-schema_4.0.2.2-1_all.deb
 ----
 
-At the target system run the following commands:
+Poi sull'altro server da installare eseguite i seguenti comandi:
 
 [source,prompt]
 ----
 univention-install opsi4ucs
 ----
 
-During the {opsi-server} installation, please ignore any warnings about a missing `/etc/opsi/modules` file.
+Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-If the server role is something other than UCS Master, it is required to run the join script after the installation.
+Se il ruolo del server è altro che UCS Master, vi sarà richiesta l'esecuzione di uno script di giunzione dopo l'installazione.
 [source,prompt]
 ----
 univention-run-join-scripts
 ----
 
-Now you can find a link to the opsi management interface by browsing to the URL `https://<servername>:4447/configed/`.
+Adesso potrete trovare un link verso l'interfaccia di gestione opsi navigando verso l'URL `https://<nome-del-server>:4447/configed/`.
 
-Only members of the group 'opsiadmin' are permitted to use the opsi management interface. Please use Univention-Admin to edit the group memberships of a user. The user Administrator will be added to the opsiadmin group automatically during the opsi installation process.
+Solo ai membri del gruppo 'opsiadmin' è consentito l'uso dell'interfaccia di gestione opsi. Usate Univention-Admin per modificare l'appartenenza di un utente ad un gruppo. L'utente Administrator sarà aggiunto al gruppo 'opsiadmin' automaticamente durante la procedura d'installazione di opsi.
 
-To increase the performance of the LDAP server, make an index for the attribute opsiHostId. To do this just run the following command at the UCS master:
+Per aumentare le performance del server LDAP, indicizzate sull'attributo opsiHostId. Per farlo eseguite sull'UCS master:
 [source,prompt]
 ----
 ucr set ldap/index/eq=$(ucr get ldap/index/eq),opsiHostId
@@ -923,11 +923,11 @@ must return a fully qualified domain name containing two dots, e.g. 'opsidemo.do
 getent hosts $(hostname -f)
 ----
 +
-The result should look like the following example: +
+Il risultato dovrebbe assomigliare all'esempio seguente: +
 '192.168.1.1 server.domain.tld server' +
-The result has the scheme: +
-'<IP-Number> <full qualified hostname> <hostname>' +
-If the result looks different than the example above (contains eg. '127.0.0.1' or 'localhost'), or the full qualified hostname does not contain one or more dots, then you must correct your name resolution (DNS or `/etc/hosts` file). 
+Il risultato ha lo schema: +
+'<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
+Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
 
 * Samba must be installed and configured.
@@ -977,7 +977,7 @@ zypper -v install opsi-depotserver opsi-configed
 
 Please make sure that your firewall configuration allows access to the tftp Port (69/UDP) and the opsi ports (4447/TCP and 4441/TCP).
 
-During the {opsi-server} installation, please ignore any warnings about a missing `/etc/opsi/modules` file.
+Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
 If you used a tool like yast or autoyast to help you with your network configuration, then the tool may have created an entry in your `/etc/hosts` file that has the following pattern:
 [source,configfile]
@@ -1032,11 +1032,11 @@ must return a fully qualified domain name containing two dots, e.g. 'opsidemo.do
 getent hosts $(hostname -f)
 ----
 +
-The result should look like the following example: +
+Il risultato dovrebbe assomigliare all'esempio seguente: +
 '192.168.1.1 server.domain.tld server' +
-The result has the scheme: +
-'<IP-Number> <full qualified hostname> <hostname>' +
-If the result looks different than the example above (contains eg. '127.0.0.1' or 'localhost'), or the full qualified hostname does not contain one or more dots, then you must correct your name resolution (DNS or `/etc/hosts` file). 
+Il risultato ha lo schema: +
+'<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
+Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
 * Samba must be configured
 
@@ -1108,11 +1108,11 @@ must return a fully qualified domain name containing two dots, e.g. 'opsidemo.do
 getent hosts $(hostname -f)
 ----
 +
-The result should look like the following example: +
+Il risultato dovrebbe assomigliare all'esempio seguente: +
 '192.168.1.1 server.domain.tld server' +
-The result has the scheme: +
-'<IP-Number> <full qualified hostname> <hostname>' +
-If the result looks different than the example above (contains eg. '127.0.0.1' or 'localhost'), or the full qualified hostname does not contain one or more dots, then you must correct your name resolution (DNS or `/etc/hosts` file). 
+Il risultato ha lo schema: +
+'<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
+Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
 * Install xinetd:
 +
@@ -1235,11 +1235,11 @@ must return a fully qualified domain name containing two dots, e.g. 'opsidemo.do
 getent hosts $(hostname -f)
 ----
 +
-The result should look like the following example: +
+Il risultato dovrebbe assomigliare all'esempio seguente: +
 '192.168.1.1 server.domain.tld server' +
-The result has the scheme: +
-'<IP-Number> <full qualified hostname> <hostname>' +
-If the result looks different than the example above (contains eg. '127.0.0.1' or 'localhost'), or the full qualified hostname does not contain one or more dots, then you must correct your name resolution (DNS or `/etc/hosts` file). 
+Il risultato ha lo schema: +
+'<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
+Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
 * Install xinetd:
 +
