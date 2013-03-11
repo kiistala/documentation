@@ -641,69 +641,69 @@ slapindex
 /etc/init.d/slapd start
 ----
 
-Assuming all of the above steps completed successfully, we can assume that the network is properly configured. Next continue on with <<opsi-getting-started-installation-config-backend>>
+Supponendo che tutti i precedenti passi siano stati eseguiti con successo, supponiamo anche che la configurazione di rete sia corretta. Potete dunque continuare da <<opsi-getting-started-installation-config-backend>>
 
-WARNING: The Unix commands that are used in the following chapters are for Debian systems. You may have to change them to match your Linux system.
+WARNING: I comandi Unix usati nei prossimi capitoli funzionano su un sistema Debian. Dovrete cambiarli per adattarli al vostro sistema Linux.
 
 
 [[opsi-getting-started-installation-base-ucs-3]]
-===== Installation on a UCS 3 System
+===== Installazione su un sistema UCS 3
 
-The opsi 'univention' backend is no longer available for UCS 3.
-The default backend is a file backend, which is the same for the other distributions.
+Il backend 'univention' non è più disponibile per i sistemi UCS 3.
+Il backend di default è il backend file, che è lo stesso delle altre distribuzioni.
 
-WARNING:  Because of the reason mentioned above, it is not possible to install the opsi4ucs-ldap-schema on a 
-UCS 3 system that is the Master.  Especially when the UCS 3 System will be installed with Samba4 (default).
+WARNING:  Per le ragioni sopra enunciate, non è possibile installare lo schema opsi4ucs-ldap-schema su un 
+sistema UCS 3 che dovrà eseere un Master.  Specialmente quando il sistema UCS 3 deve essere installato con Samba4 (default).
 
-The installation of opsi with the file or MySQL backend is possible on a Rolling Master, Backup, and Slave.
+L'installazione di opsi con il backend file o MySQL è possibile su Master, Backup, e Slave.
 
-The following documentation describes an installation on a master with Samba4.
+La seguente documentazione descrive un'installazione su un master con Samba4.
 
-The classical installation, with the user: 'pcpatch' in the group: 'pcpatch', does not work with UCS 3. 
-Samba4 has placed fundamental restrictions on the Active-Directory, such as groups with the same name  
-as the user (usually in Unix/Linux) are no longer allowed.  For this reason, a new configuration file has 
-been introduced:  `/etc/opsi/opsi.conf`, which will control how the groups will access Samba-Access. More specifically, for 
-UCS 3 the group name 'pcpatch' will be called 'opsifileadmins'.  This means 
-that the user who belonged to the group 'pcpatch' under UCS 3, must now belong to the group 'opsifileadmins'.  
-This means that a user, who must have access rights for opsi-packages under UCS3 cannot be a member of 'pcpatch', 
-but must be a member of the group 'opsifileadmins'.  This peculiarity initially applies only to UCS 3, and is different
-for different distributions and chapters of the opsi-documentation.  Furthermore, since UCS 3, the user 'pcpatch' is 
+L'installazione classica, con l'utente: 'pcpatch' nel gruppo: 'pcpatch', non funziona in un sistema UCS 3. 
+Samba4 impone restrizioni fondamentali nell'Active-Directory, tipo i nomi di gruppi con lo stesso nome  
+dell'utente (cosa normale in Unix/Linux) non sono più consentiti.  Per questo motivo, un nuovo file di configurazione 
+è stato introdotto:  `/etc/opsi/opsi.conf`, che controllerà come i gruppi avranno accesso a Samba-Access. Più dettagliatamente, per 
+UCS 3 il gruppo 'pcpatch' verrà chiamato 'opsifileadmins'.  Questo vuol dire 
+che l'utente che prima faceva parte del gruppo 'pcpatch' sotto UCS 3, ora farà parte del gruppo 'opsifileadmins'.  
+Quindi l'utente che aveva i permessi per amministrare i pacchetti opsi sotto UCS3 non sarà più membro del gruppo 'pcpatch', 
+ma dovrà essere membro del gruppo 'opsifileadmins'.  Questa particolarità, inizialmente si applicherà solo per UCS 3, ed è diversa
+per le diverse distribuzioni e i diversi capitoli della documentazione opsi.  Furthermore, since UCS 3, the user 'pcpatch' is 
 created as a fully-fledged domain user and is no longer a system user. (Also, the UID of 'pcpatch' and the GID of the 
 'opsifileadmins' group will no longer be fixed at 992, but will be self-assigned in UDM, which will also 
-eliminate replication problems with the User and Group).  For more information about this new configuration file, 
-please refer to the opsi-manual.  
+eliminate replication problems with the User and Group).  Per maggiori informazioni circa il nuovo file di configurazione, 
+fate riferimento al manuale di opsi.  
 
-Before opsi can be installed, some specific preconditions must be met.  At first, it must be ensured that 
-pcpatch account will be cleanly replicated to Samba4.  To check that the Univention s4-Connected connector has 
-the pcpatch account in the Ignore-List, please execute on UCS-Master following commands:  
+Prima che opsi possa essere installato, alcune precondizioni dovranno essere riempite.  Primo, dovrà essere assicurato che 
+l'utente pcpatch sia correttamente replicato verso Samba4.  Per verificare che il connettore Univention s4-Connected abbia 
+l'utente pcpatch nella sua Ignore-List, eseguite su un UCS-Master i seguenti comandi:  
 
 [source,prompt]
 ----
 ucr get connector/s4/mapping/user/ignorelist
 ----
 
-If you see pcpatch in the output, which looks like this:
+Se vedete pcpatch nell'output, tipo:
 
 [source,configfile]
 ----
 root,pcpatch,ucs-s4sync
 ----
 
-The following command will remove pcpatch from the Ignore-List:
+Il seguente comando cancellerà pcpatch dall'elenco Ignore-List:
 
 [source,prompt]
 ----
 ucr set connector/s4/mapping/user/ignorelist=root,ucs-s4sync
 ----
 
-After these commands have completed, restart the Connector:
+Una volta eseguiti questi comandi, riavviate il Connettore:
 
 [source,prompt]
 ----
 invoke-rc.d univention-s4-connector restart
 ----
 
-It may take a few minutes for the changes to take effect.
+Le modifiche saranno effettuate in qualche minuto.
 
 Another problem is that a security feature of UCS does not allow anonymous reading of the Univention-LDAP.
 This features is turned off for the default installation of UCS 2.4-x.  Therefore, the opsi config server has no 
@@ -719,46 +719,46 @@ ucr set ldap/acl/read/anonymous=yes
 
 (This will be done automatically with an upgrade from UCS 2.4-x to UCS 3.)
 
-The second option is to partially disable the Configserver:
+La seconda opzione è di disabilitare parzialmente Configserver:
 
 [source,prompt]
 ----
 ucr set ldap/acl/read/ips="127.0.0.1,192.168.1.1"
 ----
 
-In this case, the address 192.168.1.1 must be replaced with the real IP address of the server.
+In questo caso, l'indirizzo 192.168.1.1 dovrà essere rimpiazzato con l'indirizzo IP reale del server.
 
-When any changes have been made to the server, then slapd must be restarted (Note that when slapd restarts 
-LDAP on a production system, it should be done at the right time when user load is as low as possible):
+Quando tutte le modifiche saranno effettuate sul server, allora slapd dovrà essere riavviato (notate che quando slapd riavvia
+LDAP in un sistema in produzione, it should be done at the right time when user load is as low as possible):
 
 [source,prompt]
 ----
 invoke-rc.d slapd restart
 ----
 
-Once these settings have been made, opsi4ucs can be installed.  The unmaintained repositories of UCS 
-are important, and can be set with the following command:
+Una volta eseguite tutte queste impostazioni, opsi4ucs puó essere installato. I repositories non più supportati di UCS 
+sono importanti, e possono essere impostati con i seguenti comandi:
 
 [source,prompt]
 ----
 ucr set repository/online/unmaintained="yes"
 ----
 
-Next, activate the opsi4ucs repository:
+Attivate i repository opsi4ucs:
 
 [source,prompt]
 ----
 echo "deb http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/ucs3.0 ./" >> /etc/apt/sources.list
 ----
 
-Now import the key to the repository system with th following command:
+Importate la firma elettronica del repository nel vostro server con il seguente comando:
 
 [source,prompt]
 ----
 wget -O - http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/ucs3.0/Release.key | apt-key add -
 ----
 
-For the installation on a Master, the following commands must be entered:
+Per delle installazioni su un Master, dovranno essere eseguiti anche i seguenti comandi:
 
 [source,prompt]
 ----
@@ -768,28 +768,28 @@ univention-install p7zip-full cabextract
 aptitude install mysql-server 
 ----
 
-During the {opsi-Server}s installation, please ignore any warnings that say `/etc/opsi/modules` not found.
+Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
 
-If the role of the target systems different than Master or Backup, then the following commands run the opsi4ucs Join-Script:
+Se il ruolo dei sistemi da installare differisce da Master o Backup, allora i seguenti comandi eseguiranno lo script opsi4ucs Join-Script:
 
 [source,prompt]
 ----
 univention-run-join-scripts
 ----
 
-A link to the management interface can be found at the URL link `https://<servername>:4447/`.
+Un link verso l'interfaccia di gestione sarà disponibile all'URL `https://<servername>:4447/`.
 
-To use the opsi configurations editor, the user must be a member of the group opsiadmin.
-The group membership can be edited using Univention-Admin.  The user Administrator will automatically 
-be added to this group during opsi installation.
+Per usree l'editor di configurazione di opsi, l'utente dovrà essere membro del gruppo opsiadmin.
+L'appartenenza ad un gruppo puó essere modificata attraverso il comando Univention-Admin. L'utente Administrator sarà automaticamente 
+aggiunto a questo gruppo durante l'installazione di opsi.
 
 Finally the 'opsi_depot' release point must be released in UDM.  To do this set the link to 'yes' under Advanced Settings -> Advanced 
 Samba Settings:  'follow symlinks'.  The same should be done for the 'opt_pcbin', so that the driver integration will
 take place without problems.  If the directory '/opt/pcbin/' is found on an extra partition or hard disk, then 
 the option for those links should be set to 'yes'.
 
-To make sure that opsi is running with the proper settings, restart opsi by entering the following commands:
+Per assicurarsi che opsi stia funzionando con le giuste impostazioni, riavviate opsi attraverso i seguenti comandi:
 
 [source,prompt]
 ----
@@ -799,7 +799,7 @@ opsi-setup --set-rights
 /etc/init.d/opsipxeconfd restart
 ----
 
-After installing opsi on a UCS 3 system, samba4 on the server has to be restarted with the following command:
+Dopo aver installato opsi su un sistema UCS 3, riavviate samba4 con il seguente comando:
 
 [source,prompt]
 ----
@@ -816,7 +816,7 @@ Deleting the LDAP clients in Univention does not mean that the client was also d
 Since opsi has already been run on the server, it is assumed that the network configuration is correct. +
 Continue with the installation be skipping forward to <<opsi-getting-started-installation-config-backend>>.
 
-WARNING:  The Unix commands that are used in the following chapters are for Debian systems. You may have to change them to match your Linux system.  
+WARNING:  I comandi Unix usati nei prossimi capitoli funzionano su un sistema Debian. Dovrete cambiarli per adattarli al vostro sistema Linux.  
 
 [[opsi-getting-started-installation-base-ucs-listener]]
 ===== opsi4ucs-Listener
@@ -828,7 +828,7 @@ For example, if a client's MAC address changes in LDAP and in opsi a netboot-pro
 
 A solution for this problem provides the new opsi-listener, programmed by DIGITEC GmbH. (www.DIGITEC-SES.de) The belonging package is part of the official opsi repsitory.
 
-For installing the package run this command on the {opsi-configserver}:
+Per installare questo pacchetto eseguite questo comando sul {opsi-configserver}:
 
 [source,prompt]
 ----
@@ -840,7 +840,7 @@ With a standard-installation this listener works without further configuration. 
 Don't forget to deploy the {opsi-client-agent} on new windows-clients as described in <<opsi-getting-started-firststeps-software-deployment-client-integration>>. The {opsi-client-agent} isn't automatically deployed with the opsi-listener.
 
 The behavior of the opsi-listener can be controlled via UCR-variables.
-These are the possible configurations:
+Queste sono le possibili configurazioni:
 
 
 [options="header"]
@@ -857,7 +857,7 @@ The following example describes how to change one of the options named above via
 
 
 
-Configuration of the LDAP search filter:
+Configurazione del filtro di ricerca LDAP:
 
 [source,prompt]
 ----
@@ -892,31 +892,31 @@ The loglevel is defined in the UCR-variable: `listener/debug/level`. Please noti
 
 
 [[opsi-getting-started-installation-base-opensuse]]
-==== Installation on openSUSE
+==== Installazione su openSUSE
 
-Please note:
+Notate:
 
-* opsi 4.0 is built and tested for openSUSE 11.3 ,12.1 , 12,2.
+* opsi 4.0 è costruito e testato per openSUSE 11.3 ,12.1 , 12,2.
 
-* The support for openSUSE 11.3 is deprecated.
+* Il supporto di openSUSE 11.3 è deprecato.
 
-* For evaluation purposes, uib gmbh strongly recommends using the opsi-VM.
+* A scopo di valutazione, opensides raccomanda vivamente l'uso della macchina virtuale opsi.
 
 
-Please read <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (if you haven't done so yet).
+Leggete <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (se non lo avete già fatto).
 
-Necessary preparations:
+Condizioni necessarie:
 
-* The command
+* Il comando
 +
 [source,prompt]
 ----
 hostname -f
 ----
 +
-must return a fully qualified domain name containing two dots, e.g. 'opsidemo.domain.local'
+dovrà dare come risultato il nome pienamente qualificato contenente due punti, ad esempio 'opsidemo.dominio.locale'
 
-* Check the {opsi-server} entry in `/etc/hosts`, or the output of
+* Verificate il contenuto sul {opsi-server} di `/etc/hosts` oppure il risultato di
 +
 [source,prompt]
 ----
@@ -930,15 +930,15 @@ Il risultato ha lo schema: +
 Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
 
-* Samba must be installed and configured.
+* Samba deve essere installato e configurato.
 
-* mysql-server must be installed.
+* mysql-server deve essere installato.
 
-* p7zip p7zip-plugins cabextract must be installed.
+* p7zip p7zip-plugins cabextract devono essere installati.
 
-* If the machine should also act as DHCP-server, then the daemon dhcpd has to be configured and should be up and running.
+* Se il server dovrà fungere anche da server DHCP, allora il demone dhcpd dovrà essere configurato ed operazionale.
 
-You can use zypper to add the opsi-SUSE-Repository:
+Potete usare zypper per aggiungere il repository SUSE di opsi:
 
 *openSUSE 11.3:*
 
@@ -964,7 +964,7 @@ zypper ar –-refresh http://download.opensuse.org/repositories/home:/uibmz:/ops
 zypper mr -p 50 home_uibmz_opsi_opsi40
 ----
 
-After adding the repository, you may start the opsi installation:
+Dopo l'aggiunta del repository, potrete iniziare l'installazione di opsi:
 
 [source,prompt]
 ----
@@ -975,57 +975,57 @@ zypper -v install opsi-depotserver opsi-configed
 /etc/init.d/opsipxeconfd restart
 ----
 
-Please make sure that your firewall configuration allows access to the tftp Port (69/UDP) and the opsi ports (4447/TCP and 4441/TCP).
+Assicuratevi che la configurazione del vostro firewall permetta l'accesso alla porta tftp (69/UDP) e alle porte opsi (4447/TCP e 4441/TCP).
 
 Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-If you used a tool like yast or autoyast to help you with your network configuration, then the tool may have created an entry in your `/etc/hosts` file that has the following pattern:
+Se usate yast o autoyast per aiutarvi nella configurazione della rete, probabilmente sarà aggiunta un'entrata nel vostro file `/etc/hosts` che avrà il seguente schema:
 [source,configfile]
 ----
-127.0.0.2 <fqdn> <hostname>
+127.0.0.2 <fqdn> <nome-host>
 ----
 
-If you want opsi to manage the configuration of the DHCP server, then you need to correct this entry to point to the server's public IP adress.
+Se volete che opsi gestisca la configurazione del server DHCP, dovrete allora correggere questa entrata per farla puntare verso l'indirizzo IP pubblico del server.
 
-Assuming all of the above steps completed successfully, we can assume that the network is properly configured. Next continue on with <<opsi-getting-started-installation-config-backend>>
+Supponendo che tutti i precedenti passi siano stati eseguiti con successo, supponiamo anche che la configurazione di rete sia corretta. Potete dunque continuare da <<opsi-getting-started-installation-config-backend>>
 
-WARNING: The unix commands that are used in the following chapters are working on Debian systems. You may have to change them to match your linux system.
+WARNING: I comandi Unix usati nei prossimi capitoli funzionano su un sistema Debian. Dovrete cambiarli per adattarli al vostro sistema Linux.
 
 [[opsi-getting-started-installation-base-sles]]
-==== Installation on Suse Linux Enterprise Server (SLES)
+==== Installazione su Suse Linux Enterprise Server (SLES)
 
-Please note:
+Notate che:
 
-* opsi 4.0 is built for SLES 11 SP1
+* opsi 4.0 è costruito per SLES 11 SP1
 
-* opsi on SLES is new.
+* opsi su SLES è una novità.
 
-* We have no experience with installations of opsi on SLES.
+* Non abbiamo esperienza nelle installazioni di opsi su SLES.
 
-* We are not sure if opsi 4.0 will work with other versions of SLES.
+* Non siamo sicuri che opsi 4.0 funzionerà su altre versioni di SLES.
 
-* For evaluation purposes, uib gmbh strongly recommends using the opsi-VM.
+* A scopo di valutazione, opensides raccomanda vivamente l'uso della macchina virtuale opsi.
 
-Please read <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (if you haven't done so yet).
+Leggete <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (se non lo avete già fatto).
 
-opsi 4.0 is tested and released for SLES 11 SP1.
+opsi 4.0 è testato e pubblicato per SLES 11 SP1.
 
-First  general notes:
+Prime note generali:
 
-These packages are tested with openSUSE 11.3. We have no information if opsi 4.0 will work with other versions.
+Questi pacchetti sono testati con openSUSE 11.3. Non abbiamo informazioni sul funzionamento di opsi4.0 con altre versioni.
 
-Necessary preparations:
+Condizioni necessarie:
 
-* The command
+* Il comando
 +
 [source,prompt]
 ----
 hostname -f
 ----
 +
-must return a fully qualified domain name containing two dots, e.g. 'opsidemo.domain.local'
+dovrà dare come risultato il nome pienamente qualificato contenente due punti, ad esempio 'opsidemo.dominio.locale'
 
-* Check the {opsi-server} entry in `/etc/hosts` or the output of
+* Verificate il contenuto sul {opsi-server} di `/etc/hosts` oppure il risultato di
 +
 [source,prompt]
 ----
@@ -1038,13 +1038,13 @@ Il risultato ha lo schema: +
 '<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
 Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
-* Samba must be configured
+* Samba deve essere configurato
 
-* mysql-server must be installed
+* mysql-server deve essere installato
 
-* If the machine should also act as DHCP-server, the daemon dhcpd has to be configured and should be up and running
+* Se il server dovrà fungere anche da server DHCP, allora il demone dhcpd dovrà essere configurato ed operazionale
 
-You can use zypper to add the SLES-Repository:
+Potete usare zypper per aggiunfgere il repository SLES:
 
 [source,prompt]
 ----
@@ -1052,7 +1052,7 @@ zypper ar --refresh http://download.opensuse.org/repositories/home:/uibmz:/opsi:
 zypper -p 100 mr home_uibmz_opsi_opsi40
 ----
 
-After adding the repository, you may start the opsi installation:
+Dopo l'aggiunta del repository, potrete cominciare l'installazione di opsi:
 
 [source,prompt]
 ----
@@ -1063,45 +1063,45 @@ zypper -v install opsi-depotserver {opsi-configed}
 /etc/init.d/opsipxeconfd restart
 ----
 
-During the {opsi-server} installation, please ignore any warnings about a missing '/etc/opsi/modules' file.
+Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-In case you used a tool like yast or autoyast to help you with your network configuration, then the tool may have created an entry in your `/etc/hosts` file that has the following pattern:
+Se usate yast o autoyast per aiutarvi nella configurazione della rete, probabilmente sarà aggiunta un'entrata nel vostro file `/etc/hosts` che avrà il seguente schema:
 [source,configfile]
 ----
 127.0.0.2 <fqdn> <hostname>
 ----
 
-If you want opsi to manage the configuration of the DHCP server, then you need to correct this entry so that it point to the server's public IP address.
+Se volete che opsi gestisca la configurazione del server DHCP, dovrete allora correggere questa entrata per farla puntare verso l'indirizzo IP pubblico del server.
 
-Assuming all of the above steps completed successfully, we can assume that the network is properly configured. Next continue on with <<opsi-getting-started-installation-config-backend>>
+Supponendo che tutti i precedenti passi siano stati eseguiti con successo, supponiamo anche che la configurazione di rete sia corretta. Potete dunque continuare da <<opsi-getting-started-installation-config-backend>>
 
-WARNING: The Unix commands that are used in the following chapters are working on Debian systems. You may have to change them to match your linux system.
+WARNING: I comandi Unix usati nei prossimi capitoli funzionano su un sistema Debian. Dovrete cambiarli per adattarli al vostro sistema Linux.
 
 [[opsi-getting-started-installation-base-rhel]]
-==== Installation on RedHat Enterprise Linux (RHEL)
+==== Installazione su RedHat Enterprise Linux (RHEL)
 
-Please note:
+Notate che:
 
-* opsi 4.0 is build and tested for RHEL 5 and RHEL6.
+* opsi 4.0 è costruito e testato per RHEL 5 e RHEL6.
 
-* The support for RHEL 5 is deprecated.
+* Il supporto di RHEL 5 è deprecato.
 
-* For evaluation purposes, uib gmbh strongly recommends using the opsi-VM.
+* A scopo di valutazione, opensides raccomanda vivamente l'uso della macchina virtuale opsi.
 
-Please read <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (if you haven't done yet).
+Leggete <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (se non lo avete già fatto).
 
-Necessary preparations:
+Condizioni necessarie:
 
-* The command
+* Il comando
 +
 [source,prompt]
 ----
 hostname -f
 ----
 +
-must return a fully qualified domain name containing two dots, e.g. 'opsidemo.domain.local'
+dovrà dare come risultato il nome pienamente qualificato contenente due punti, ad esempio 'opsidemo.dominio.locale'
 
-* Check the {opsi-server} entry in `/etc/hosts`, or the output of
+* Verificate il contenuto sul {opsi-server} di `/etc/hosts` oppure il risultato di
 +
 [source,prompt]
 ----
@@ -1114,21 +1114,21 @@ Il risultato ha lo schema: +
 '<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
 Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
-* Install xinetd:
+* Installate xinetd:
 +
 [source,prompt]
 ----
 yum install xinted
 ----
 
-* Install samba and mysql-server:
+* Installate samba e mysql-server:
 +
 [source,prompt]
 ----
 yum install mysql-server samba
 ----
 
-* Configure samba and mysql-server:
+* Configurate samba e mysql-server:
 +
 [source,prompt]
 ----
@@ -1143,17 +1143,17 @@ chkconfig mysqld on
 chkconfig xinetd on
 ----
 
-* If the machine should also act as DHCP-server, the daemon dhcpd has to be configured and should be up and running
+* Se il server dovrà fungere anche da server DHCP, allora il demone dhcpd dovrà essere configurato, attivo e in esecuzione
 
-Register at the Red Hat Network:
+Registratevi nella rete Red Hat:
 [source,prompt]
 ----
 rhn_register
 ----
 
-Next, add the opsi RHEL Repository, by creating the file `/etc/yum.repos.d/opsi40.repo`, and writing into the file:
+Aggiungete i repository opsi RHEL, creando il file file `/etc/yum.repos.d/opsi40.repo`, con il contenuto seguente:
 
-*For RHEL 5*
+*Per RHEL 5*
 
 [source,configfile]
 ----
@@ -1165,7 +1165,7 @@ gpgcheck=1
 gpgkey=http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/RedHat_RHEL-5/repodata/repomd.xml.key
 ----
 
-*For RHEL 6*
+*Per RHEL 6*
 
 [source,configfile]
 ----
@@ -1177,7 +1177,7 @@ gpgcheck=1
 gpgkey=http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/RedHat_RHEL-6/repodata/repomd.xml.key
 ----
 
-After the repository is added, you may start the opsi installation:
+Dopo l'aggiunta del repository, potrete cominciare l'installazione di opsi:
 
 [source,prompt]
 ----
@@ -1196,39 +1196,39 @@ chkconfig opsipxeconfd on
 /etc/init.d/nmb restart
 ----
 
-Please make sure that your iptables and SE-Linux configuration allows access to the tftp Port (69/UDP) and the opsi ports (4447/TCP and 4441/TCP).
+Assicuratevi che le configurazioni di iptables e SE-Linux permettano l'accesso alle porte tftp (69/UDP) e alle porte opsi (4447/TCP e 4441/TCP).
 
-Please ignore any warnings about a missing `/etc/opsi/modules` file during the installation process.
+Durante l'installazione, ignorate ogni eventuale avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-Assuming all of the above steps completed successfully, we can assume that the network is properly configured. Next continue on with <<opsi-getting-started-installation-config-backend>>
+Supponendo che tutti i precedenti passi siano stati eseguiti con successo, supponiamo anche che la configurazione di rete sia corretta. Potete dunque continuare da <<opsi-getting-started-installation-config-backend>>
 
-WARNING: The unix commands that are used in the following chapters are working on Debian systems. You may have to change them to match your linux system.
+WARNING: I comandi Unix usati nei prossimi capitoli funzionano su un sistema Debian. Dovrete cambiarli per adattarli al vostro sistema Linux.
 
 [[opsi-getting-started-installation-base-centos]]
-==== Installation on CentOS Server
+==== Installazione in un server CentOS
 
-Please note:
+Avvertenze:
 
-* opsi 4.0 is built and tested for CentOS 5 and CentOS 6.
+* opsi 4.0 è costruito e testato per CentOS 5 e CentOS 6.
 
-* The support for CentOS 5 is depricated.
+* Il supporto per CentOS 5 è deprecato.
 
-* For evaluation purposes, uib gmbh strongly recommends the usage of the opsi-VM.
+* A scopo di valutazione, opensides raccomanda vivamente l'uso della macchina virtuale opsi.
 
-Please read <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (if you haven't done yet).
+Leggete <<opsi-getting-started-introduction-software-and-configuration-preconditions>> (se non lo avete già fatto).
 
-Necessary preparations:
+Condizioni necessarie:
 
-* The command
+* Il comando
 +
 [source,prompt]
 ----
 hostname -f
 ----
 +
-must return a fully qualified domain name containing two dots, e.g. 'opsidemo.domain.local'
+dovrà dare come risultato il nome pienamente qualificato contenente due punti, ad esempio 'opsidemo.dominio.locale'
 
-* Check the {opsi-server} entry in `/etc/hosts` or the output of
+* Verificate il contenuto sul {opsi-server} di `/etc/hosts` oppure il risultato di
 +
 [source,prompt]
 ----
@@ -1241,21 +1241,21 @@ Il risultato ha lo schema: +
 '<IP-Number> <nome-host-pienamente-qualificato> <hostname>' +
 Se il risultato differisce dall'esempio sopra riportato (contiene ad esempio '127.0.0.1' or 'localhost'), oppure il nome dell'host pienamente qualificato non contiene uno o più punti, allora dovrete correggere la vostra risoluzione dei nomi (DNS oppure il file`/etc/hosts`). 
 
-* Install xinetd:
+* Installate xinetd:
 +
 [source,prompt]
 ----
 yum install xinted
 ----
 
-* Install samba and mysql-server:
+* Installate samba e mysql-server:
 +
 [source,prompt]
 ----
 yum install mysql-server samba
 ----
 
-* Configure samba and mysql-server:
+* Configurate samba e mysql-server:
 +
 [source,prompt]
 ----
@@ -1270,10 +1270,10 @@ chkconfig mysqld on
 chkconfig xinetd on
 ----
 
-* If the machine should also act as DHCP-server, then the daemon dhcpd has to be configured and should be up and running
+* Se il server dovrà fungere anche da server DHCP, allora il demone dhcpd dovrà essere configurato ed operazionale
 
-Add the opsi CentOS Repository:
-Create the file `/etc/yum.repos.d/opsi40.repo` with the following content:
+Aggiungete il repository CentOS:
+Create il file `/etc/yum.repos.d/opsi40.repo` con il seguente contenuto:
 
 *CentOS 5*
 
@@ -1299,7 +1299,7 @@ gpgcheck=1
 gpgkey=http://download.opensuse.org/repositories/home:/uibmz:/opsi:/opsi40/CentOS_CentOS-6/repodata/repomd.xml.key
 ----
 
-After adding the repository, you may start the opsi installation:
+Dopo l'aggiunta del repository, potrete iniziare l'installazione di opsi:
 
 [source,prompt]
 ----
@@ -1317,20 +1317,20 @@ chkconfig opsipxeconfd on
 /etc/init.d/nmb restart
 ----
 
-Please make sure that your iptables and SE-Linux configuration allow access to the tftp Port (69/UDP) and the opsi ports (4447/TCP and 4441/TCP).
+Assicuratevi che la configurazione di iptables e SE-Linux vi permetta l'accesso alle porte tftp (69/UDP) e alle porte opsi (4447/TCP e 4441/TCP).
 
-Please ignore any warnings about a missing `/etc/opsi/modules` file during the installation process.
+Durante l'installazione, ignorate ogni eventuale avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-Assuming all of the above steps completed successfully, we can assume that the network is properly configured. Next continue on with <<opsi-getting-started-installation-config-backend>>
+Supponendo che tutti i precedenti passi siano stati eseguiti con successo, supponiamo anche che la configurazione di rete sia corretta. Potete dunque continuare da <<opsi-getting-started-installation-config-backend>>
 
-WARNING: The Unix commands that are used in the following chapters are working on Debian systems. You may have to change them to match your linux system.
+WARNING: I comandi Unix usati nei prossimi capitoli funzionano su un sistema Debian. Dovrete cambiarli per adattarli al vostro sistema Linux.
 
 [[opsi-getting-started-installation-config]]
-=== Update and Configuration of the {opsi-server}
+=== Configurazione e aggiornamento del {opsi-server}
 
 [[opsi-getting-started-installation-config-proxy]]
-==== Proxy Entry in apt-configuration File
-If necessary, adapt the file `/etc/apt/apt.conf` to your network configuration (enter the correct proxy, or comment/delete unnecessary lines). You can edit your file with a program like „midnight commander“:
+==== Configurazione del Proxy nel file apt-configuration
+Se necessario, adattate il file `/etc/apt/apt.conf` alla vostra configurazione di rete (inserite il proxy corretto, o commentate/cancellate le linee non necessarie). Potete modificare il vostro file con un programma tipo „midnight commander“:
 
 
 [source,prompt]
@@ -1340,8 +1340,8 @@ mcedit /etc/apt/apt.conf
 
 
 [[opsi-getting-started-installation-config-update]]
-==== Update of the {opsi-server}
-Update the {opsi-server} with the commands:
+==== Aggiornamento del {opsi-server}
+Aggiornate il {opsi-server} con i comandi:
 
 [source,prompt]
 ----
@@ -1349,36 +1349,36 @@ aptitude update
 aptitude safe-upgrade
 ----
 
-TIP: During the installation, you may be asked to modify the `smb.conf` file. Please select Yes. If you have modified the `smb.conf` file before, then you should save the default, and later make a diff on both files. If you answered the question with default before reading this tip, then you can reconfigure samba from an {opsi-Server} console with following command: 
+TIP: Durante l'installazione, vi sarà richiesto se volete modificare il file `smb.conf`. Accettate. Se avete modificato il file `smb.conf` precedentemente, allora registrate il file di default, ed in seguito eseguite un diff di entrambi i files. Se alla domanda avete risposto precedentemente senza aver visto questo consiglio, potete comunque riconfigurare samba a partire dal terminale del {opsi-Server} con il comando seguente: 
 [source,prompt]
 ----
 opsi-setup --auto-configure-samba
 ----
 
 [[opsi-getting-started-installation-config-backend]]
-==== Backend Configuration
+==== Configurazione del Backend
 
-opsi supports different backends for storing it's data.
+opsi accetta diversi backends per l'immagazzinamento dei suoi dati.
 
-The most important backends are:
+I backends più importanti sono:
 
-* file (storage in files)
-* ldap (storage in the ldap database) (deprecated)
-* mysql (storage in a MySQL database)
+* file (immagazzinamento in files)
+* ldap (immagazzinamento in un annuario ldap) (in futuro è prevesta un'integrazione in FusionDirectory tramite un plugin)
+* mysql (immagazzinamento in una base dati MySQL)
 
-Besides these main backends, there are some special backends:
+Oltre questi backends, vi sono altri backends 'speciali':
 
-* opsipxeconfd (the service for the opsi pxe boot)
-* dhcpd (used for configuring and restarting the local dhcp service)
-* jsonrpc (redirects all calls to a other {opsi-server} via JSON RPC)
+* opsipxeconfd (il servizio per l'avvio in pxe di opsi)
+* dhcpd (usato per configurare e riavviare il servizio dhcp locale)
+* jsonrpc (ridirigere tutte le chiamate verso un altro {opsi-server} attraverso JSON RPC)
 
-We recommend initializing the mysql backend (in order to use it for e.g. inventory data). Therefore enter the command:
+Raccomandiamo di inizializzare il backend mysql (per poterlo usare ad esempio per l'inventario). A questo proposito eseguite il comando:
 [source,prompt]
 ----
 opsi-setup --configure-mysql
 ----
 
-The following screen shots show example parameters for a MySQL configuration setup:
+Gli screenshots seguenti, mostreranno dei parametri di esempio per le impostazioni di configurazione di MySQL:
 
 .Dialog opsi-setup --configure-mysql
 image::../images/mysql-config-input-mask.png["Dialog opsi-setup --configure-mysql",width=400]
@@ -1386,11 +1386,11 @@ image::../images/mysql-config-input-mask.png["Dialog opsi-setup --configure-mysq
 .Output: opsi-setup --configure-mysql
 image::../images/mysql-config-output.png["Output: opsi-setup --configure-mysql",width=400]
 
-You may accept the defaults for all questions, except the 'Database Admin Password'. The 'Database Admin Password' is 'linux123' on the pre-installed opsi-VM, otherwise it is the password you entered during the mysql-server installation.
+Potete accettare i valori di default per tutte le domande, eccetto per 'Database Admin Password'. La 'Database Admin Password' è 'linux123' nella macchina virtuale preinstallata, negli altri casi sarà la password da voi inserita durante l'installazione di mysql-server.
 
-Different kinds of data may be stored in different types of backends. For some actions (such as method calls) more than one backend has to be involved. Therefore, the different method calls can use more than one backend. These method-to-backend(s) calls are configured is in the file `/etc/opsi/backendManager/dispatch.conf.`
+Diversi tipi di dati possono essere immagazzinati in diversi tipi di backends. Per alcune azioni (come le chiamate di metodi) più di un backend sarà coinvolto. Quindi, le diverse chiamate di metodo useranno più di un backend. Queste chiamate method-to-backend(s) sono configurate nel file `/etc/opsi/backendManager/dispatch.conf.`
 
-Here an example: 
+Eccovi un esempio: 
 [source,configfile]
 ----
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -1463,11 +1463,11 @@ audit.*            : mysql
 .*                 : file
 ----
 
-You will find explanations and examples at the top of this file.  This file is formatted such that the first column is the name of the opsi method being called  (with wildcard \*), and the second column is the list of backends used by that opsi method.  To determine which backends are used by an opsi method, the beginning of the method name is matched with the first column in this file. The last line (.*) matches all opsi method calls.
+Trovate delle spiegazioni e degli esempi all'inizio di questo file.  Questo file è formattato in modo che la prima colonna rappresenti il nome del metodo opsi da chiamare  (con il carattere joker \*), e la seconda colonna l'elenco dei backends usati da questo metodo opsi. Per determinare quali backends sono usati dal metodo opsi, l'inizio del nome del metodo è comparato con la prima colonna di questo file. L'ultima linea (.*) richiama tutte le chiamate di metodo opsi.
 
-The default backend is the file-based backend.
+Il backend di default è quello basato su file.
 
-Now at the initial start-up (even if you haven't changed the file), you should call:
+Ora, al primo avvio (anche se non avete modificato il file contenente i backends), dovrete eseguire i seguenti comandi:
 
 [source,prompt]
 ----
@@ -1477,16 +1477,16 @@ opsi-setup --set-rights
 /etc/init.d/opsipxeconfd restart
 ----
 
-We advise you to run the above commands any time an opsi file has been changed.  
+Vi raccomandiamo l'esecuzione dei comandi di cui sopra ad ogni modifica di un file di configurazione di opsi.  
 
-Please ignore the warnings about a missing `/etc/opsi/modules` file.
+Ignorate l'avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
 
-The access rights for calling the opsi methods are configured in  `/etc/opsi/backendManager/acl.conf`.
+Le autorizzazioni d'accesso per l'uso di questi metodi opsi sono configurate in `/etc/opsi/backendManager/acl.conf`.
 
 [[opsi-getting-started-installation-config-passwords]]
-==== Set Samba Configuration and Change Passwords
-opsi requires certain samba shares. To ensure that they are configured, please enter the following command:
+==== Impostare la configurazione di Samba e cambiare le password
+opsi richiede alcuni share condivisi Samba. Per assicurarsi che siano correttamente configurati, eseguite i seguenti comandi:
 
 [source,prompt]
 ----
@@ -1494,9 +1494,9 @@ opsi-setup --auto-configure-samba
 ----
 
 
-A 'pcpatch' user is created on the system. The user 'pcpatch' is used to install software on a client PC. The 'pcpatch' user allows access to configuration data on the host shares. 
+Un utente 'pcpatch' è creato nel sistema. L'utente 'pcpatch' è usato per installare i software sui PC clienti. All'utente 'pcpatch' sono concessi i privilegi sui dati presenti negli share condivisi Samba. 
 
-The user 'pcpatch' has to be given a correct password. In a terminal window, start the program 'opsi-admin', which will then set the pcpatch-password for opsi, unix, and samba (enter the password after entering the 'opsi-admin' command):
+All'utente 'pcpatch' deve essere fornita una password corretta. In una finestra di terminale, avviate il programma 'opsi-admin', con il quale imposterete la password di pcpatch per opsi, unix, e samba (inserite la password dopo l'esecuzione del comando 'opsi-admin'):
 
 [source,prompt]
 ----
@@ -1505,19 +1505,19 @@ opsi-admin -d task setPcpatchPassword
 
 
 [[opsi-getting-started-installation-config-java]]
-==== Checking the Java Configuration
+==== Verifica della configurazione di JavaThis will work fine if you start
 
-The {opsi-server}s and the connected clients are administered with the program '{opsi-configed}'. The program is written in Java, and requires a Java version of at least 6 (or version 1.6 in the older nomenclature).
+Il {opsi-server}s ed i clienti connessi, sono amministrati con il programma '{opsi-configed}'. Il programma è scritto in Java, e richiede la versione 6 di Java minimo (o la versione 1.6 nella vecchia nomenclatura).
 
-Since Ubuntu has removed the Sun/Oracle JRE from its repositories, we recommend using OpenJDK. This will work fine if you start '{opsi-configed}' as an application or via webstart. Running '{opsi-configed}' inside the browser as an applet may lead to problems with OpenJDK 6.
+Siccome Ubuntu ha tolto Sun/Oracle JRE dai suoi repositories, vi raccomandiamo l'uso di OpenJDK. Funzionerà benissimo se avvierete '{opsi-configed}' come applicazione o come pagina web. L'esecuzione di '{opsi-configed}' all'interno del browser come applet potrebbe produrre problemi con OpenJDK 6.
 
-To check the Java version enter:   
+Per verificare la versione di Java eseguite:   
 [source,prompt]
 ----
 java -version
 ----
 
-To alter the version of Java you are using, such that it is at least version 1.6.0, use the program `update-alternatives` :
+Per modificare la versione di Java utilizzata, affinchè sia almeno alla versione 1.6.0, usate `update-alternatives` :
 [source,prompt]
 ----
 update-alternatives --config java
@@ -1549,80 +1549,80 @@ update-alternatives: using /usr/lib/jvm/java-6-sun/jre/lib/amd64/libnpjp2.so to 
 ----
 
 [[opsi-getting-started-installation-config-users-and-groups]]
-==== Create Users and Administrate the Groups opsiadmin / pcpatch
+==== Creare degli Utenti e Amministrare i Gruppi opsiadmin / pcpatch
 
-The opsi administration is only allowed for members of the UNIX-group 'opsiadmin'.
+L'amministrazione di opsi è disponibile solo per i membri UNIX facenti paret del gruppo 'opsiadmin'.
 
-In the following example, we create the user 'adminuser', which is a similar procedure to creating an account for yourself.
+Nell'esempio seguente, creiamo l'utente 'adminuser', nella stessa maniera che dovrete usare per creare un account per voi stessi.
 
-Let's create the user:
+Creiamo l'utente:
 [source,prompt]
 ----
 useradd -m -s /bin/bash adminuser
 ----
 
-now set the unix password:
+impostiamo la password unix:
 [source,prompt]
 ----
 passwd adminuser
 ----
 
-and now the samba password:
+e adesso la password samba:
 [source,prompt]
 ----
 smbpasswd -a adminuser
 ----
 
-CAUTION: Do not use the char '§' as part of the passwords. It becomes impossible to login at the opsi web service.
+CAUTION: Nella passwxord non usate il carattere '§'. Renderà impossibile il login verso il servizio web di opsi.
 
-Create and test the group membership:
+Create e testate l'appartenenza al gruppo:
 [source,prompt]
 ----
 usermod -aG opsiadmin adminuser
 getent group opsiadmin
 ----
 
-the getent command should have a result like: +
+il comando getent dovrebbe fornire un risultato del genere: +
 'opsiadmin:!:1001:opsiconfd,adminuser'
 
-In you want 'root' to use the opsi administration commands, then 'root' has to be a member of the group 'opsiadmin'.
+Se volete che 'root' possa usare i comandi d'amministrazione opsi, allora 'root' dovrà essere membro del gruppo 'opsiadmin'.
 
-All users who build opsi packages (`opsi-makeproductfile`), install opsi packages (`opsi-package-manager`), or manually edit the configuration files have to also be in the group 'pcpatch' :
+Tutti gli utenti che dovranno costruire dei pacchetti opsi (usando il comando `opsi-makeproductfile`), installallare i pacchetti opsi (con il comando `opsi-package-manager`), o modificare manualmente i files di configurazione,  dovranno anch'essi appartenere al gruppo 'pcpatch' :
 
 [source,prompt]
 ----
 usermod -aG pcpatch adminuser
 ----
 
-Test the results by entering:  
+Testate i risultati con:  
 
 [source,prompt]
 ----
 grep pcpatch /etc/group
 ----
-The result should look like +
+Il risultato dovrebbe somigliare a +
 'pcpatch:x:992:adminuser' 
 
-'root' is allowed to do anything, and does not have to be explicitly registered in the group.
+'root' puó fare tutto, senza appartenere esplicitamente al gruppo.
 
 [[opsi-getting-started-installation-config-dhcp]]
-=== DHCP Configuration
+=== Configurazione DHCP
 
-Important:
+Importante:
 
-It is essential for opsi that the DHCP has the correct addresses. To simplify the setup, the {opsi-server} VM is delivered with a running DHCP server. In the situation where a DHCP server already exists, it should be configured to work with opsi. Both alternatives are described below.
+É essenziale per opsi che il DHCP fornisca gli indirizzi corretti. Per semplificarvi la configurazione, la VM {opsi-server} è fornita di un server DHCP funzionante. Nel caso in cui un server DHCP sia già disponibile, dovrà essere configurato affinchè lavori con opsi. Entrambe le alternative sono descritte di seguito.
 
 [[opsi-getting-started-installation-config-dhcp-at-opsi]]
-==== Using a DHCP Server at the {opsi-server} VM
+==== Uso del server DHCP fornito con la VM {opsi-server}
 
-The DHCP server on the {opsi-server} VM is configured with no free leases, so no unknown clients will get an IP-Number from this DHCP server. 
+Il server DHCP della VM {opsi-server} è configurato per non dare indirizzi senza che ci sia una riservazione, dunque nessun cliente non dichiarato potrà ricevere un indirizzo IP da questo server DHCP. 
 
-If you create a client at the {opsi-server} using the {opsi-configed}, it will also create a dhcp entry for this client. Therefore you have to supply the IP-number and the MAC-address.
+Se create un cliente sul {opsi-server} usando {opsi-configed}, verrà creata anche un'entrata dhcp per lo stesso. Sarà quindi d'obbligo fornire un indizzo IP e MAC.
 
 [[opsi-getting-started-installation-config-at-other-server]]
-==== Using an External DHCP Server
+==== Uso di un server DHCP esterno
 
-If you use an external DHCP server, then you may want to disable the DHCP server at the {opsi-server}, which is done by entering:
+Se volete usare un server DHCP esterno, dovrete disabilitare il server DHCP del {opsi-server} con l'uso dei seguenti comandi :
 
 [source,prompt]
 ----
@@ -1631,7 +1631,7 @@ update-rc.d -f dhcp3-server remove
 update-rc.d dhcp3-server stop 20 2 3 4 5 .
 ----
 
-oder
+oppure
 
 [source,prompt]
 ----
@@ -1640,40 +1640,40 @@ update-rc.d -f isc-dhcp-server remove
 update-rc.d isc-dhcp-server stop 20 2 3 4 5 .
 ----
 
-Next you have to configure your external DHCP server, and provide the client information to the external DHCP server, such that clients know that our {opsi-server} is now the boot server. If your external DHCP runs on Linux, then you need the following entries for the clients in the `/etc/dhcp3/dhcpd.conf` file.
+In seguito dovrete configurare il vostro server DHCP esterno, e fornirgli le informazioni sul cliente, in modo da far sapere ai clienti che adesso il {opsi-server} è il loro boot server. Se il server DHCP esterno è su Linux, avrete bisogno delle seguenti voci d'entrata per i clienti nel vostro file `/etc/dhcp3/dhcpd.conf`.
 
-'next-server <ip of opsi-server>;' +
+'next-server <ip del {opsi-server}>;' +
 'filename "linux/pxelinux.0";'
 
-Replace '<ip of {opsi-server}>' by the IP-number of the {opsi-server}.
+Sostituite '<ip del {opsi-server}>' con l'indirizzo IP del {opsi-server}.
 
-If you are using a Windows server, then the corresponding entries may be 'bootserver' or 'startserver' and 'bootfile' or 'startfile' ('Options 66 / 67').
+Sei invece usate un server Windows, le voci corrispondenti dovranno essere allora 'bootserver' o 'startserver' e 'bootfile' o 'startfile' ('Options 66 / 67').
 
-If you create a client at the {opsi-server}, then you only have to supply the MAC-address, but not the IP-number.
+Se create un cliente sul {opsi-server}, in seguito dovrete fornire solo l'indirizzo MAC e non più l'IP.
 
 [[opsi-getting-started-installation-config-dhcp-backend]]
-==== Checking the Backend Configuration for DHCP Entries
+==== Verifica del Backend di Configurazione per le voci d'entrata DHCP
 
-Regardless of whether or not you use the dhcp of the {opsi-server}, you have to configure the {opsi-server}.
+Dipendentemente dall'uso o meno del server DHCP del {opsi-server}, dovrete configurare il {opsi-server}.
 
-The file `/etc/opsi/backendManager/dispatch.conf` defines which opsi method uses which backends (file, ldap, mysql).
+Il file `/etc/opsi/backendManager/dispatch.conf` definisce la corrispondenza tra il metodo opsi utilizzato ed il/i suo/i rispettivo/i backend/s (file, ldap, mysql).
 
-The lines with 'backend_.*' and 'host_.*' entries configure how changes at host entries are handled. If you are using the dhcp server on the {opsi-server}, then the backend dhcpd has to be added here. +
-The accordant entry is (e.g.):
+Le linee con 'backend_.*' e 'host_.*' configurano come saranno gestite le modifiche. Se usate il server dhcp del {opsi-server}, il backend dhcpd dovrà essere aggiunto qui. +
+L'entrata concordante è (ad esempio):
 [source,configfile]
 ----
 backend_.*         : file, opsipxeconfd, dhcpd
 host_.*            : file, opsipxeconfd, dhcpd
 ----
 
-If the local DHCP isn't used, then the backend dhcpd is not required:
+Se non è il DHCP locale ad essere utilizzato, allora il backend dhcpd non è necessario:
 [source,configfile]
 ----
 backend_.*         : file, opsipxeconfd
 host_.*            : file, opsipxeconfd
 ----
 
-After adapting the correct backend configuration, you should execute:
+Dopo aver adottato la corretta configurazione del backend, dovrete eseguire:
 
 [source,prompt]
 ----
@@ -1683,39 +1683,39 @@ opsi-setup --set-rights
 /etc/init.d/opsipxeconfd restart
 ----
 
-Please ignore any warnings about a missing `/etc/opsi/modules` file.
+Ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
 
 [[opsi-getting-started-installation-config-nameresolution]]
-=== Configure how the opsi-server gets the Client's IP-Address
+=== Configurare il modo per il {opsi-server} di recuperare gli indirizzi IP dei Clienti
 
-In the default method of opsi software deployment, only the client must know how to contact the opsi-server.
+Nel metodo di default della distribuzione di software con opsi, solo il cliente deve conoscere come contattare il {opsi-server}.
 
-However, if you would like to use one of the opsi 'push' features (like send messages to the client, or fire 'on_demand' events, or get session information, or start remote control software), then the server needs to know how to get the IP-Address of the client.
+Altrimenti, se volete usare una delle funzionalità 'push' di opsi (come l'invio di messagi al cliente, o l'avvio di eventi 'on_demand', o ricevere informazioni sulla sessione, o avviare il controllo a distanza del software), il server necessiterà sapere dove recuperare l'indirizzo IP del cliente.
 
-How the opsi server does this, depends on your DNS/DHCP configuration and policy. There are a large number of possible configurations. So here we show two different example configurations:
+Il modo impiegato dal server opsiper fare ció, dipende dalla vostra configurazione DNS/DHCP. Ci sono un sacco di possibili configurazioni. Di seguito vi mostriamo 2 differenti esempi di configurazione:
 
-. The clients are not known by the DNS (only by netbios), and they get dynamically assigned frequently changing IP-Numbers by the DHCP.
+. I clienti non sono conosciuti dal servizio DNS (solo da netbios), e ricevono un indirizzo IP dinamico e frequentemente modificato dal servizio DHCP.
 
-. The DNS always provides the correct IP-Address of a client.
+. Il DNS fornisce sempre l'indirizzo IP corretto del cliente.
 
-To configure the opsi server to your situation, you may change the following parameters:
+Per configurare il {opsi-server} alla vostra situazione, dovrete modificare i parametri seguenti:
 
-* The entry +resolveHostAddress+ in the file `/etc/opsi/backends/hostcontrol.conf` +
-This option controls whether the name resolution of a opsi-client address is primarily done by the opsi database or by the name resolution of the operating system of the '{opsi-server}'. +
-If this option is +True+, the '{opsi-server}' first tries to get the IP-Address of an '{opsi-client}' using the name resolution from the operating system (DNS, /etc/hosts).  If the operating system DNS name resolution fails, then the opsi database is used. +
-To use the opsi database during the first attempt, you have to set this option to +False+.
+* La voce +resolveHostAddress+ nel file `/etc/opsi/backends/hostcontrol.conf` +
+Questa opzione controlla in che modo la risoluzione dei nomi del {opsi-client} è principalmente fornita dalla base dati di opsi oppure dalla risoluzione dei nomi del sistema operativo del '{opsi-server}'. +
+Se questa opzione è +True+ (vera), il '{opsi-server}' tenterà in primis di ricevere l'indirizzo IP di un '{opsi-client}' usando la risoluzione dei nomi del sistema operativo (DNS, /etc/hosts). Se fallisce, sarà utilizzata la base dati del server opsi. +
+Per usare in primis la risoluzione dei nomi attraverso la base dati del server, dovrete impostare questa opzione su +False+ (falso).
 
-* The entry +update ip+ at the file `/etc/opsi/opsiconfd.conf` +
-If this entry is 'yes', then the opsi-server will update it's own IP database whenever the opsi-server gets a client IP-Address (e.g. at every web service contact of a client). The default is 'no'.
+* La voce +update ip+ nel file `/etc/opsi/opsiconfd.conf` +
+Se questa voce è a 'yes' (si), allora il {opsi-server} aggiornerà la sua propria base dati d'indirizzi IP ogni volta che il {opsi-server} riceve l'indirizzo IP di un cliente (ad esempio ad ogni interazione del cliente con il servizio web). Il default è 'no'.
 
-If you are running configuration example 1, then you should probably set +resolveHostAddress+ to 'False' and +update ip+ to 'yes'.
+Se il vostro caso corrisponde all'esempio 1, allora dovrete probabilmente impostare +resolveHostAddress+ a 'False' e +update ip+ a 'yes'.
 
-If you are running configuration example 2, then the best configuration is to set  +resolveHostAddress+ to 'True' and +update ip+ to 'no'.
+Se il vostro caso corrisponde all'esempio 2, allora la migliore scelta è d'impostare +resolveHostAddress+ a 'True' e +update ip+ a 'no'.
 
-You should decide for yourself which combination fits the needs of your situation.
+Dovrete decidere voi stessi della confgiurazione che meglio rifletta la vostra situazione.
 
-If you changed anything while configuring your environment, then you should reload the opsiconfd:
+Ongi volta che modificate qualcosa nella configurazione di opsi, ricordatevi di ricaricare opsiconfd:
 
 [source,prompt]
 ----
@@ -1725,32 +1725,32 @@ If you changed anything while configuring your environment, then you should relo
 
 
 [[opsi-getting-started-installation-config-modules]]
-=== Installing and Checking the Activation File
+=== Installare e verificare il File d'Attivazione
 
-Event hough opsi is open source, there are some components which are not free at the moment. These components are developed in a project that is co-funded by various partners.  Which means that until the complete development costs are recuperated by the co-funders, the modules are only allowed to be used by the co-funders or for evaluation purposes. If we have recuperated the cost of development, then we will release these modules to everybody for free. To control the use of these components until they are free, there is a activation file `/etc/opsi/modules`, which is protected against changes via electronic signature. If this activation file doesn't exist, then only the free parts of opsi will work.
+Anche se opsi è open source, ci sono alcuni componenti che non sono al momento gratuiti. Questi componenti sono sviluppati in un progetto cofinanziato da vari partner. Questo vuol dire che fino al momento in cui i costi completi dello sviluppo non sono recuperati da parte dei cofinanziatori, i moduli potranno essere usati solo dai cofinanziatori stessi oppure per dei propositi di valutazione. Quando i costi di sviluppo saranno recuperati, il modulo sarà accessibile a tutti gratuitamente. Per controllare l'uso di questo componente finchè diventi gratuito, c'è un file di attivazione `/etc/opsi/modules`, che è protetto da qualsiasi modifica attraverso una firma elettronica. Se questo file d'attivazione non è presente sul {opsi-server}, allora saranno solo le parti open source di opsi a funzionare.
 
-If you would like to evaluate opsi's modules, then a temporary activation file can be obtained by contacting 'info@uib.de'. 
+Se desiderate valutare i moduli opsi, potrete ottenere un file d'attivazione temporanea contattando 'opsi@opensides.be'. 
 
-If you become a co-funder, you will get an unlimited activation file. Copy the file to `/etc/opsi` as root. 
+Se diventate cofinanziatori di un modulo, otterete un file di attivazione illimitato per il modulo stesso. Copiate il file in `/etc/opsi` essendo root. 
 
-Then do the command:
+In seguito eseguite il comando:
 
 [source,prompt]
 ----
 opsi-setup --set-rights /etc/opsi
 ----
 
-You may check your activation state with one of the following methods:
+Potrete verificare lo stato dell'attivazione con uno dei seguenti metodi:
 
-Using '{opsi-configed}', choose the menu entry Help/opsi-Module, which shows a window with the activation state.
+Usando '{opsi-configed}', selezionate la voce di menu Aiuto/Moduli-opsi, che mostrerà una finestra con lo stato dell'attivazione.
 
-Or at the command line, you can enter `opsi-admin` with the method 'backend_info'. (Remark: Never give your activation file or the output of this command to a third party without deleting the signature).
+Oppure da linea di comando, potrete digitare `opsi-admin` con il metodo 'backend_info'. (Attenzione: Non date in nessun caso il file d'attivazione oppure l'output di questo comando a una persona terza senza aver prima cancellato la firma elettronica).
 [source,prompt]
 ----
 opsi-admin -d method backend_info
 ----
 
-Example:
+Esempio:
 [source,configfile]
 ----
 {
@@ -1774,91 +1774,91 @@ Example:
 }
 ----
 
-Note that only you need the modules-file for additional components, and not for a general use of opsi.
+Notate che avete bisogno del file 'modules' solo per i componenti aggiuntivi ancora in cofinanziamento, non per l'uso generale del core di opsi.
 
 [[opsi-getting-started-installation-config-get-essential-products]]
-=== Install the Minimal opsi Products
+=== Installazione dei Prodotti Minimi di opsi
 
-One important and new feature of opsi 4.0 is a simple tool that updates opsi products from a configured repository with the command `opsi-product-updater`. This tool compares the version of the locally installed products with the versions available at the repository, and then performs an upgrade if necessary. It is also possible to install additional products using `opsi-product-updater`. The `opsi-product-updater` configuration is located in the file `/etc/opsi/{opsi-product}-updater.conf`. The default repository is http://download.uib.de/opsi4.0/products, and it may be used to install any new essential opsi products.
+Una nuova e importante funzionalità di opsi 4.0 è la possibilità di aggiornare i prodotti opsi a partire da un repository configurato, attraverso l'uso del comando `opsi-product-updater`. Questo programma compara la versione dei prodotti installata localmente con la versione disponibile sul repository, ed esegue l'aggiornamento se necessario. É anche possibile installare nuovi prodotti usando `opsi-product-updater`. Il file di configurazione di `opsi-product-updater` è `/etc/opsi/{opsi-product}-updater.conf`. Il repository di default è http://download.uib.de/opsi4.0/products, e puó essere ustao per installare ogni nuovo prodotto essenziale di opsi.
 
-The `opsi-product-updater` has the following core features:
+`opsi-product-updater` possiede le seguenti funzionalità di base:
 
 * *autoInstall*: + 
-Install all available products from the repository.
+Installa tutti i prodotti disponibili a partire dal repository configurato.
 
 * *autoUpdate*: + 
-Update products from the repository if the server has an older version.
+Aggiorna i prodotti dal repository se sul {opsi-server} è presente una vecchia versione.
 
 * *autoSetup*: 
-After installation of an updated product, switch the requested action to 'setup' for all clients which have this product installed.
+Dopo l'aggiornamento dei prodotti, modifica l'azione richiesta impostandola su 'setup' per tutti i clienti che hanno questo prodotto installato.
 
-For more details regarding this function, refer to the opsi-manual.
+Per ulteriori dettagli circa questa funzionalità, riferitevi al manuale opsi.
 
-You should now download and install the opsi products with the command:
+Potete dunque adesso scaricare e installare i prodotti opsi con il comando:
 [source,prompt]
 ----
 opsi-product-updater -i -vv
 ----
 
-If the `opsi-product-updater` fails, it may be necessary to add a required proxy to the configuration file:
+Se `opsi-product-updater` fallisce, sarà probabilmente necessario aggiungere la necessaria configurazione del proxy nel file di configurazione:
 [source,configfile]
 ----
 [repository_uib]
 proxy =
 ----
 
-Please notice that the OS-Installation products like winxppro and win7 aren't ready for action after installation. The installation has to be supplemented by the installation files from the corresponding installation media (i.e. CD, see <<opsi-getting-started-firststeps-osinstall-fill-base-packages>>).
+Notate che i prodotti per l'installazione dei sistemi ooperativi tipo winxppro e win7 non sono pronti ad eseere eseguiti dopo la loro installazione. Dovranno essere completati fornendo i file d'installazione contenuti nei corrispondenti supporti d'installazione(CD o DVD, vedere <<opsi-getting-started-firststeps-osinstall-fill-base-packages>>).
 
 [[opsi-getting-started-installation-config-configed]]
-=== Starting the {opsi-configed} Server Interface
+=== Avvio dell'interfaccia di configurazione {opsi-configed}
 
-Opsi offers a user-friendly configuration editor interface with the {opsi-configed} application.
+Opsi fornisce un interfaccia di configurazione facile all'uso attraverso l'applicazione {opsi-configed}.
 
-There are different ways to start {opsi-configed}:
+Ci sono differenti modi per avviare {opsi-configed}:
 
-* Enter the following address in a browser (anywhere in the net) https://<opsi-server>:4447/configed, and then a web interface will appear with an embedded {opsi-configed}. A java version of at least 1.6 is required.
+* Inserendo il seguente indirizzo in un browser (dappertutto nella rete) https://<opsi-server>:4447/configed, accederete alla pagina web che ingloba {opsi-configed}. Una versione di java al minimo 1.6 è richiesta.
 
-* Another option would be to right-mouse-click on the server desktop background, then open the context menu, and then choose the „opsi config editor“.
+* Attraverso un click destro del mouse sul desktop dell'interfaccia del server aprirete un menu contestuale, dove potrete scegliere „opsi config editor“.
 
-* The configuration editor is also a component of the opsi-adminutils, which can also be copied onto any client.
+* L'editor di configurazione è anche parte degli opsi-adminutils, e potrà essere copiato su qualsiasi cliente.
 
-When {opsi-configed} is first started, a login window will appear. Log in with the member account of the group opsiadmin (at the opsi VM you may use root since you have created new user accounts).
+Quando {opsi-configed} è avviato la prima volta, apparirà una finestra di connessione. Connettetevi con un account facente parte del gruppo opsiadmin (sulla VM opsi potrete usare root finchè non avrete creato un nuovo account).
 
-The {opsi-configed} interface is mostly self-explanatory. However, here are some hints:
-Any changes have to be saved in order to show any effect. Saving changes can be done with the check-mark button.  To see changes that may have taken place, you have to reload the data, which can be done with the button at the top left that has double arrows.   Reloading can also be done with a right mouse click, and selecting reload.
+L'interfaccia {opsi-configed} è pe rla maggior parte auto istruttiva. In ogni caso, di seguito alcuni consigli:
+Ogni modifica dovrà essere registrata prima di poter essere applicata. La registrazione delle modifiche è possibile attraverso un click sul segno di spunta.  Per vedere le modifiche che sono state eseguite o in corso d'esecuzione, dovrete ricaricare i dati, attraverso il bottone in alto a sinistra contente due frecce che si inseguono.   L'aggiornamento dei dati è possibile anche cliccando il tasto del del mouse e scegliendo 'ricarica' dal menu contestuale.
 
-A more detailed description can be found in the opsi manual. 
+Potrete trovare dettagli ulteriori nel manuale opsi. 
 
 
 [[opsi-getting-started-installation-config-nagios]]
-=== Configuring the opsi-Nagios-Connectors on the opsidemo-Virtual Machine 
+=== Configurazione del connettore opsi Nagios sulla macchina virtuale opsidemo 
 
-The opsi-Nagios-Connector has already been prepared on the opsidemo-vmware virtual-machine.
+Il connettore opsi Nagios è già pronto all'uso nella VM opsidemo.
 
-The required opsi-Nagios packages will be installed at the same time as the Nagios-Server.  The following steps
-are still required to start the opsi-Nagios-Connectors:
+I pacchetti opsi-Nagios necessari saranno installati allo stesso tempo che i pacchetti Nagios-Server.  I successivi passi
+sono necessari per avviare  il connettore:
 
-* To activate the opsi-Nagios-Connectors you must have the license file installed on your system.  This is because the 
-opsi-Nagios-Connectors is still in the co-financing phase.  If you like access to the opsi-Nagios-Connectors for a 
-evaluation purposes, then see this section <<opsi-getting-started-installation-config-modules>>
+* Per attivare il connettore opsi Nagios dovrete avere il file 'modules' installato nel vostro server.  Questo dato che 
+il connettore è ancora nella sua fase di cofinanziamento.  Se avete bisogno di valutare il connettore opsi Nagios, 
+andate a leggere questa sezione <<opsi-getting-started-installation-config-modules>>
 
-* set the Nagios username and password 
+* impostate il nome e la password per l'account Nagios
 [source,prompt]
 ----
 opsi-admin -d method user_setCredentials monitoring monitoring123
 ----
-* enter the Nagios username in the file /etc/opsi/opsiconfd.conf (the default value is: monitoring user = monitoring),  
-and then restart opsiconfd because the configuration has been changed. 
-* enter the Nagios username and password in the file /etc/nagios3/resource.cfg:
+* inserite il nome dell'account Nagios nel file /etc/opsi/opsiconfd.conf (il valore di default è: monitoring user = monitoring),  
+e riavviate opsiconfd affinchè la nuova configurazione sia presa in conto. 
+* inserite l'account dell'utente Nagios e la sua password nel file /etc/nagios3/resource.cfg:
 [source,configfile]
 ----
 # Sets $USER2$ to be the path to event handlers
 $USER2$=monitoring
 $USER3$=monitoring123
 ----
-*  There is a template in the VMWare for the Service-Configuration, in which individual pre-configured checks and 
-HostGroup name have been commented out. In order to use the Nagios Service, you must 
-uncomment the "hostgroup_name" in the file /etc/nagios3/conf.d/opsi/opsiservice.cfg:
+*  C'è un template nella VM per Service-Configuration, nel quale ogni verifica individuale preconfigurata e 
+il nome HostGroup sono stati disattivati mettendoli come linee di commento. Per poter usare il servizio Nagios, dovrete 
+decommentare "hostgroup_name" nel file /etc/nagios3/conf.d/opsi/opsiservice.cfg:
 [source,configfile]
 ----
 define service{
@@ -1870,83 +1870,83 @@ define service{
 
 ----
 
-* To make sure that the Nagios configuration is correct, please call the "pre-flight" checks at the command line:
+* Per assicurarsi che la configurazione di Nagios sia corretta, fate appello alla verifica "pre-flight" a partire dalla linea di comando:
 [source,prompt]
 ----
 nagios3 -v /etc/nagios3/nagios.cfg
 ----
 
-* If there are no errors in the above results, then restart Nagios:  
+* Se non ci sono errori nel risultato, riavviate Nagios:  
 [source,prompt]
 ----
 /etc/init.d/nagios3 reload
  * Reloading nagios3 monitoring daemon configuration files nagios3                        [ OK ]
 ----
 
-More information about the meaning of various Checks can be found in the Nagios chapter in the opsi handbook.  This 
-chapter describes the basic meaning of each check on the opsi-Server, regardless of whether or not the opsi-VMWare 
+Maggiori informazioni circa il significato delle diverse Verifiche possono essere trovate nel capitolo sul connettore Nagios del manuale opsi.  Questo 
+capitolo descrive il significato basico di ogni verifica sul {opsi-server}, regardless of whether or not the opsi-VMWare 
 machine is being used.
 
-The Nagios-Website is accessible from the OPSISERVER/nagios3,  Username: nagiosadmin, Password: linux123
+La pagina Web Nagios è accessibile all'indirizzo https://{opsi-server}/nagios3,  Nome-utente: nagiosadmin, Password: linux123
 
 
 [[opsi-getting-started-firststeps]]
-== First steps
+== Primi passi
 
-The next step after the {opsi-server} installation is the integration of clients. Here we have two possibilities:
+Il passo successivo all'installazione del {opsi-server} è l'integrazione dei clienti. Abbiamo 2 possibilità:
 
-* Integration of existing Windows-Clients in opsi
-* Installing a new Windows OS using opsi 
+* Integrazione dei Clienti Windows esistenti
+* Installazione di un nuovo sistema operativo Windows usando opsi 
 
-Both ways are described below, and you are free to choose which way you would like to test at first.
+Entrambi i modi sono illustrati di seguito, e siete liberi di scegliere quale modo provare per primo.
 
 [[opsi-getting-started-online-videos]]
-=== Online Videos
+=== Video Online
 
-There are videos at the OPSI website, which show:  
+Ci sono dei video sul sito web di OPSI, che mostrano:  
 
-* And Introduction to OPSI
-* How to install an OS 
-* How to manage clients with opsi:  Nagios Connector
-* How to build and deploy software using opsi Winst scripts
+* Un'introduzione ad OPSI
+* Come installare un sistema operativo 
+* Come gestire i clienti con opsi:  Connettore Nagios
+* Come costruire e distribuire del software usando degli script opsi Winst
 
-The website is at:
+L'indirizzo per i video (al momento soltanto in inglese) è:
 http://www.opsi.org/en/opsi-video
 
 [[opsi-getting-started-firststeps-software-deployment]]
-=== Software Deployment
+=== Distribuzione del Software
 
 [[opsi-getting-started-firststeps-software-deployment-client-integration]]
-==== Integration of Existing Clients
+==== Integrazione dei Clienti esistenti
 
-To integrate existing Windows clients into opsi, the opsi-client-agent has to be installed on these systems. There are different ways to do this, which are described below. After you have done so, you should see the client in the {opsi-configed} after selecting the tab 'Clients'.
+Per integrare ad opsi dei clienti Windows esistenti, il prodotto opsi-client-agent dovrà essere installato sui clienti stessi. Ci sono modi diversi di farlo, che sono descritti di seguito. Dopo l'installazione, potrete vedere il nuovo cliente nella lista dei clienti in {opsi-configed} dopo aver selezionato il tab 'Clienti'.
 
 [[opsi-getting-started-firststeps-software-deployment-client-integration-service-setup]]
-===== Usage of service_setup.cmd
+===== Integrazione con service_setup.cmd
 
-This method is the first choice for installations on a single computer.  service_setup.cmd can also be used for repair purposes. For mass roll-out, see the chapter below.
+Questo metodo è la prima scelta per installazioni su singoli computer.  service_setup.cmd puó essere anche usato a scopo di riparazione. Per installazioni di massa, passate al paragrafo successivo.
 
-. login to the Windows client with administrative privileges
-. mount the shared directory on the opsi server at \\<opsiserver>\opsi_depot to a drive letter
-. on the drive letter from the previous step, start the script opsi-client-agent\service_setup.cmd
-. The script connects to the opsi-webservice in order to create the server side client information and to get the pckey. The connection requires the user/password combination registered in the config.ini. If the connection fails, a login window pops up, where the user can fill in a URL, user, and password. The provided user has to be a member of the group 'opsiadmin'.
+. connettersi sul cliente Windows con un account che possegga i privilegi d'amministratore
+. montare, su una lettera di drive, la cartella condivisa sul server opsi a \\<opsiserver>\opsi_depot
+. nel drive montato in precedenza, eseguite lo script opsi-client-agent\service_setup.cmd
+. lo script si connette al servizio web opsi per poter creare le informazioni del cliente da inviare al server e riceverne la pckey. La connessione richiede la combinazione utente/password registrata nel file config.ini. Se la connessione npon riesce, una nuova finestra di connessione apparirà, dando la possibilità all'utente di reinserire URL, utente e password. L'utente fornito nella finestra di connessione dovrà essere membro del gruppo 'opsiadmin'.
 
-WARNING: During installation, the client reboots without notice!
+WARNING: Durante l'installazione, il cliente sarà riavviato senza alcuna notifica!
 
 [[opsi-getting-started-firststeps-software-deployment-client-integration-opsi-deploy]]
-===== Usage of the opsi-deploy-client-agent
+===== Integrazione con opsi-deploy-client-agent
 
-The `opsi-deploy-client-agent` script installs the opsi-client-agent directly from the {opsi-server} to the clients. Requirements for the clients are:
+Lo script `opsi-deploy-client-agent` installa l'agente opsi sul cliente direttamente a partire dal {opsi-server}. I prerequisiti per i clienti sono:
 
-* an open C$ share
-* an open admin$ share
-* an administrative account
+* uno share C$ aperto
+* uno share admin$ aperto
+* un account d'amministratore
 
-The script creates the client information from the server and then copies the installation files, the configuration information, and the pckey to the client.  After copying the necessary information, `opsi-deploy-client-agent` starts the installation on the client.
+Lo script crea le informazioni del cliente a partire dal server e poi ne copia i file d'installazione, le informazioni di configurazione, e la pckey sul cliente.  Dopo la copia di queste informazioni necessarie, `opsi-deploy-client-agent` avvia l'installazione sul cliente.
 
-With the `opsi-deploy-client-agent` script you can batch install a list of clients. The script itself is located in `/opt/pcbin/install/opsi-client-agent`.
+Con lo script `opsi-deploy-client-agent` potrete effettuare delle installazioni di molteplici clienti, raggruppati in una lista. Lo script stesso si trova in `/opt/pcbin/install/opsi-client-agent`.
 
-Run this script with 'root' privileges.
+Eseguite questo script con i privilegi di 'root'.
 
 [source,prompt]
 ----
@@ -1976,40 +1976,40 @@ Options:
 ----
 
 [[opsi-getting-started-firststeps-software-deployment-product-tests]]
-==== First Tests
+==== Prime Prove
 
 [[opsi-getting-started-firststeps-software-deployment-product-tests-inventory]]
-===== Hard- and Software Inventory with the Products hwaudit and swaudit
+===== Inventario Hardware e Software con i Prodotti hwaudit e swaudit
 
-Using '{opsi-configed}', choose the client by pressing the tab 'Clients', which puts '{opsi-configed}' in the mode 'Configuration of clients'.
+Usando '{opsi-configed}', scegliere il cliente cliccando sul tab 'Clienti', metterà '{opsi-configed}' in modalità 'Configurazione dei clienti'.
 
-If you haven't done so yet, reload all the data by clicking the reload button at the top left corner of the '{opsi-configed}' interface (or use the 'File' menu).
+se non lo avete già fatto, ricaricate i dati by cliccando sul bottone di ricarica nell'angolo in alto a sinistra dell'interfaccia '{opsi-configed}' (o usate il menu 'File').
 
-Switch to the tab 'Product configuration', look for the lines that audit the software and hardware of the system ('hwaudit' and/or 'swaudit'). Go to the column 'Requested Action', and select the action 'setup' using a left mouse click. Finally, save the new action with a click on the checkmark button at the top (or by right clicking the mouse and selecting 'save').
+Passate al tab 'Configurazione prodotti', cercate il prodotto che eseguirà l'audit del cliente ('hwaudit' e/o 'swaudit'). Nella colonna 'Azione richiesta' selezionate l'azione 'setup' con un click sinistro del mouse. Infine, registrate la nuova azione con un click sul bottone con il segno di spunta in alto (oppure con un click destro sul mouse e selezionando 'salva').
 
-Now reboot the client, and the 'hwaudit' and/or 'swaudit' should automatically start. The client scans the hardware and/or software inventory and sends the results back to the server.
+Riavviate il cliente, i programmi 'hwaudit' e/o 'swaudit' saranno avviati automaticamente. Sul cliente sarà effettuata una scansione dell'hardware e/o del software che genererà un'inventario che sarà in seguito inviato al server.
 
-To see the changes at the '{opsi-configed}' management interface, select reload with the button at the top or with a right mouse click.  You may see the update after selecting the tabs 'Hardware information' and 'Software inventory'.
+Per vedere i cambiamenti nellinterfaccia di gestione '{opsi-configed}', selezionate un ricaricamento dei dati con il bottone in alto oppure con un click destro del mouse.  Potrete vedere l'aggiornamento dei dati dopo aver selezionato il tab 'Inventario Hardware' e 'Inventario Software'.
 
 
 [[opsi-getting-started-firststeps-software-deployment-product-tests-hwinvent]]
-===== Hardware Inventory with the Netboot Product hwinvent
+===== Inventario Hardware con il prodotto Netboot hwinvent
 
-Using '{opsi-configed}', choose the client by pressing the tab 'Clients', which puts '{opsi-configed}' in the mode 'Configuration of clients'.
+Usando '{opsi-configed}', scegliere il cliente premendo sul tab 'Clienti', metterà '{opsi-configed}' in modalità 'Configurazione dei clienti'.
 
-If you haven't done so yet, reload all the data by clicking the reload button at the top left corner of the '{opsi-configed}' interface (or use the 'File' menu).
+se non lo avete già fatto, ricaricate i dati by cliccando sul bottone di ricarica nell'angolo in alto a sinistra dell'interfaccia '{opsi-configed}' (o usate il menu 'File').
 
-Switch to the tab 'Netboot products', look for the line that has 'hwinvent'. Go to the column 'Requested Action', and select the action 'setup'. Finally, save the new action with a click on the checkmark button at the top (or by right clicking the mouse and selecting 'save').
+Passate al tab 'Prodotti Netboot', cercate il prodotto 'hwinvent'. Nella colonna 'Azione richiesta' selezionate l'azione 'setup'. Infine, registrate la nuova azione con un click sul bottone con il segno di spunta in alto (oppure con un click destro sul mouse e selezionando 'salva').
 
-Now reboot the client (over PXE), and the bootimage with 'hwinvent' should start automatically. At first, the client reboots using the Linux boot image, and then it scans the hardware and sends the results back to the server.
+Riavviate il cliente (attraverso il PXE), e la bootimage con 'hwinvent' verrà avviata automaticamente. Inizialmente, il cliente è riavviato usando un immagine di boot Linux, che in seguito effettua una scansione dell'hardware e invia i risultati al server.
 
-To see the changes at the '{opsi-configed}' management interface, select reload with the button at the top or with the mouse.  You may see the update after selecting the tab 'Hardware information'.
+Per vedere i risultati nell'interfaccia di gestione '{opsi-configed}', selezionate un ricaricamento dei dati con il bottone in alto oppure con un click destro del mouse.  Potrete vedere l'aggiornamento dei dati dopo aver selezionato il tab 'Inventario Hardware'.
 
 [[opsi-getting-started-firststeps-osinstall]]
-=== Installation of a New Windows OS using opsi 
+=== Installazione di un Nuovo Sistema Operativo Windows usando opsi 
 
 [[opsi-getting-started-firststeps-osinstall-create-client-configed]]
-==== Creating a New Client using the opsi Management Interface
+==== Creazione di un Nuovo Cliente usando l'Interfaccia di Gestione di opsi
 
 You need a client (with a minimum of 512 MB RAM) that is able to boot per PXE over the network. For an initial test, we suggest you download a corresponding vmware-image at download.uib.de (http://download.uib.de/vmware_pxeclient.zip). The advantage of vmware (virtual hardware) is that is supports the standard drivers from windows.
 
@@ -2051,7 +2051,7 @@ To see all created clients, in '{opsi-configed}' choose the client by pressing t
 
 Using '{opsi-configed}', choose the client by pressing the tab 'Clients', which puts '{opsi-configed}' in the mode 'Configuration of clients'.
 
-If you haven't done so yet, reload all the data by clicking the reload button at the top left corner of the '{opsi-configed}' interface (or use the 'File' menu).
+se non lo avete già fatto, reload all the data by clicking the reload button at the top left corner of the '{opsi-configed}' interface (or use the 'File' menu).
 
 Switch to the tab 'Netboot products', look for the line that has 'hwinvent'. Go to the column 'Requested Action', and select the action 'setup'. Finally, save the new action with a click on the checkmark button at the top (or by right clicking the mouse and selecting 'save').
 
