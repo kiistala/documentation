@@ -466,11 +466,11 @@ Durante l'installazione di tftpd, vi sarà richiesta la directory per tftp. Risp
 
 Durante l'installazione di opsiconfd, vi saranno richieste informazioni per poter generare il certificato SSL.
 
-Durante l'installazione del {opsi-server}, dovrete autorizzare il patching dei files `dhcpd.conf` and `smb.conf`. Rispondete 'yes' alle domande. Vi sarà anche richiesta la password dell'utente 'pcpatch'. Impostate una nuova password, e ricordate questa password nel prosieguo delle seguenti sezioni del manuale.
+Durante l'installazione del {opsi-server}, dovrete autorizzare il patching del file `smb.conf`. Rispondete 'yes' alla domanda. Vi sarà anche richiesta la password dell'utente 'pcpatch'. Impostate una nuova password, e ricordate questa password nel prosieguo delle seguenti sezioni del manuale.
 
 Durante l'installazione del {opsi-server}, ignorate ogni avvertimento circa la mancanza del file `/etc/opsi/modules`.
 
-Se volete eseguire l'interfaccia di gestione '{opsi-configed}' direttamente sul server, dovrete installare Java Runtime Environment di Sun/Oracle. Per installare questi pacchetti, eseguite questi comandi:
+Se volete eseguire l'interfaccia di gestione '{opsi-configed}' direttamente sul server, dovrete installare Java Runtime Environment. Per installare questi pacchetti, eseguite questi comandi:
 
 .Debian:
 Nel file `/etc/apt/sources.list`, aggiungete i rami +non-free+ e +contrib+ ai vostri repositories.
@@ -1505,9 +1505,11 @@ opsi-admin -d task setPcpatchPassword
 
 
 [[opsi-getting-started-installation-config-java]]
-==== Verifica della configurazione di JavaThis will work fine if you start
+==== Verifica della configurazione di Java (se necessario)
 
-Il {opsi-server}s ed i clienti connessi, sono amministrati con il programma '{opsi-configed}'. Il programma è scritto in Java, e richiede la versione 6 di Java minimo (o la versione 1.6 nella vecchia nomenclatura).
+Se non avete bisogno di eseguire {opsi-configed} direttamente nell'interfaccia del {opsi-server}, passate al capitolo successivo.
+
+Il {opsi-server} ed i clienti connessi, sono amministrati con il programma '{opsi-configed}'. Il programma è scritto in Java, e richiede la versione 6 di Java minimo (o la versione 1.6 nella vecchia nomenclatura).
 
 Siccome Ubuntu ha tolto Sun/Oracle JRE dai suoi repositories, vi raccomandiamo l'uso di OpenJDK. Funzionerà benissimo se avvierete '{opsi-configed}' come applicazione o come pagina web. L'esecuzione di '{opsi-configed}' all'interno del browser come applet potrebbe produrre problemi con OpenJDK 6.
 
@@ -1613,32 +1615,40 @@ Importante:
 É essenziale per opsi che il DHCP fornisca gli indirizzi corretti. Per semplificarvi la configurazione, la VM {opsi-server} è fornita di un server DHCP funzionante. Nel caso in cui un server DHCP sia già disponibile, dovrà essere configurato affinchè lavori con opsi. Entrambe le alternative sono descritte di seguito.
 
 [[opsi-getting-started-installation-config-dhcp-at-opsi]]
-==== Uso del server DHCP fornito con la VM {opsi-server}
+==== Uso del server DHCP sul {opsi-server}
 
-Il server DHCP della VM {opsi-server} è configurato per non dare indirizzi senza che ci sia una riservazione, dunque nessun cliente non dichiarato potrà ricevere un indirizzo IP da questo server DHCP. 
-
+.Utilizzo della VM:
+Il {opsi-server} della VM dispone di un server DHCP già installato. +
+Il server DHCP della VM {opsi-server} è configurato per non dare indirizzi senza che ci sia una riservazione, dunque nessun cliente non dichiarato potrà ricevere un indirizzo IP da questo server DHCP. +
 Se create un cliente sul {opsi-server} usando {opsi-configed}, verrà creata anche un'entrata dhcp per lo stesso. Sarà quindi d'obbligo fornire un indizzo IP e MAC.
+
+.Utilizzo di una vostra installazione: 
+Se volete usare il {opsi-server} come server DHCP, dovrete installare i pacchetti relativi al server DHCP. Dopo l'installazione dovrete configurare il dhcp per opsi. Potrete farlo grazie al seguente comando:
+[source,prompt]
+----
+opsi-setup --auto-configure-dhcpd
+----
 
 [[opsi-getting-started-installation-config-at-other-server]]
 ==== Uso di un server DHCP esterno
 
-Se volete usare un server DHCP esterno, dovrete disabilitare il server DHCP del {opsi-server} con l'uso dei seguenti comandi :
+.Utilizzo della VM:
+Se volete usare un server DHCP esterno, dovrete disinstallare il server DHCP del {opsi-server} con l'uso del seguente comando :
 
 [source,prompt]
 ----
-/etc/init.d/dhcp3-server stop
-update-rc.d -f dhcp3-server remove
-update-rc.d dhcp3-server stop 20 2 3 4 5 .
+aptitude remove dhcp3-server
 ----
 
 oppure
 
 [source,prompt]
 ----
-/etc/init.d/isc-dhcp-server stop
-update-rc.d -f isc-dhcp-server remove
-update-rc.d isc-dhcp-server stop 20 2 3 4 5 .
+aptitude remove isc-dhcp-server
 ----
+
+.Utilizzo di una vostra installazione: 
+A partire dalla versione 4.0.3 di opsi, nessun seerver dhcp sarà installato via le dipendenze dei pacchetti opsi.
 
 In seguito dovrete configurare il vostro server DHCP esterno, e fornirgli le informazioni sul cliente, in modo da far sapere ai clienti che adesso il {opsi-server} è il loro boot server. Se il server DHCP esterno è su Linux, avrete bisogno delle seguenti voci d'entrata per i clienti nel vostro file `/etc/dhcp3/dhcpd.conf`.
 
@@ -1818,7 +1828,7 @@ Ci sono differenti modi per avviare {opsi-configed}:
 
 * Inserendo il seguente indirizzo in un browser (dappertutto nella rete) https://<opsi-server>:4447/configed, accederete alla pagina web che ingloba {opsi-configed}. Una versione di java al minimo 1.6 è richiesta.
 
-* Attraverso un click destro del mouse sul desktop dell'interfaccia del server aprirete un menu contestuale, dove potrete scegliere „opsi config editor“.
+* Attraverso un click destro del mouse sul desktop dell'interfaccia del server aprirete un menu contestuale, dove potrete scegliere „opsi config editor“. In questo caso un ambiente runtime Java deve essere installato sul server.
 
 * L'editor di configurazione è anche parte degli opsi-adminutils, e potrà essere copiato su qualsiasi cliente.
 
